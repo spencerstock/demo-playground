@@ -1,7 +1,6 @@
 'use client';
 
 import { Input } from '../ui/Input';
-import { Button } from '../ui/Button';
 import { useConfig } from '@/lib/contexts/ConfigContext';
 
 export function RequestsSection() {
@@ -19,8 +18,8 @@ export function RequestsSection() {
             <div className="text-sm text-gray-500 mt-0.5">For approval free transactions</div>
           </div>
           <input
-            type="radio"
-            checked={spendPermission?.enabled}
+            type="checkbox"
+            checked={spendPermission?.enabled || false}
             onChange={(e) => updateRequests({
               spendPermission: { ...spendPermission!, enabled: e.target.checked }
             })}
@@ -48,7 +47,7 @@ export function RequestsSection() {
                 onChange={(e) => updateRequests({
                   spendPermission: { 
                     ...spendPermission, 
-                    frequency: e.target.value as 'Daily' | 'Weekly' | 'Monthly' | 'Never'
+                    frequency: e.target.value as 'Daily' | 'Weekly' | 'Monthly'
                   }
                 })}
                 className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
@@ -56,7 +55,6 @@ export function RequestsSection() {
                 <option value="Daily">Daily</option>
                 <option value="Weekly">Weekly</option>
                 <option value="Monthly">Monthly</option>
-                <option value="Never">Never</option>
               </select>
             </div>
 
@@ -74,8 +72,6 @@ export function RequestsSection() {
                 <option value="Never">Never</option>
               </select>
             </div>
-
-            <Button className="w-full">Trigger request</Button>
           </div>
         )}
 
@@ -85,14 +81,70 @@ export function RequestsSection() {
             <div className="text-sm text-gray-500 mt-0.5">A dedicated account for your app</div>
           </div>
           <input
-            type="radio"
-            checked={config.requests.appAccount?.enabled}
+            type="checkbox"
+            checked={config.requests.appAccount?.enabled || false}
             onChange={(e) => updateRequests({
-              appAccount: { enabled: e.target.checked }
+              appAccount: { 
+                ...config.requests.appAccount,
+                enabled: e.target.checked,
+                mode: 'auto', // Always use auto mode for demo
+                defaultAccount: config.requests.appAccount?.defaultAccount || 'sub',
+                funding: config.requests.appAccount?.funding || 'spend-permissions',
+              }
             })}
             className="w-5 h-5 accent-black cursor-pointer"
           />
         </div>
+
+        {config.requests.appAccount?.enabled && (
+          <div className="ml-6 space-y-4 p-5 bg-gray-50 rounded-lg">
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Default Account
+              </label>
+              <select
+                value={config.requests.appAccount.defaultAccount || 'sub'}
+                onChange={(e) => updateRequests({
+                  appAccount: { 
+                    ...config.requests.appAccount, 
+                    defaultAccount: e.target.value as 'sub' | 'universal'
+                  }
+                })}
+                className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              >
+                <option value="sub">App Account</option>
+                <option value="universal">Main Account</option>
+              </select>
+              <div className="text-xs text-gray-500 mt-1.5">
+                Which account to use by default for transactions
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Funding Mode
+              </label>
+              <select
+                value={config.requests.appAccount.funding || 'spend-permissions'}
+                onChange={(e) => updateRequests({
+                  appAccount: { 
+                    ...config.requests.appAccount, 
+                    funding: e.target.value as 'spend-permissions' | 'manual'
+                  }
+                })}
+                className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              >
+                <option value="spend-permissions">Spend Permissions</option>
+                <option value="manual">Manual</option>
+              </select>
+              <div className="text-xs text-gray-500 mt-1.5">
+                {config.requests.appAccount.funding === 'spend-permissions'
+                  ? 'Automatically route through main account if app account has insufficient balance'
+                  : 'Execute directly from app account without automatic fallbacks'}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

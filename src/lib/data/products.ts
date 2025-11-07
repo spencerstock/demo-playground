@@ -40,8 +40,8 @@ export const defaultConfig = {
   formAppearance: {
     showContactInfo: true,
     showShippingInfo: true,
-    logoUrl: 'morpho.org',
-    appName: 'Morpho',
+    logoUrl: '',
+    appName: '',
   },
   capabilities: {
     signInWithEthereum: true,
@@ -56,7 +56,12 @@ export const defaultConfig = {
     },
     appAccount: {
       enabled: false,
+      mode: 'auto', // auto = on-connect, manual = wallet_addSubAccount
+      defaultAccount: 'sub', // sub = app account is default, universal = main account is default
+      funding: 'spend-permissions', // spend-permissions = auto-route through main account, manual = direct execution
     },
   },
+  theme: 'light' as const,
+  viewMode: 'mobile' as const,
 };
 

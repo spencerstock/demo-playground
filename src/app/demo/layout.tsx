@@ -1,30 +1,27 @@
+'use client';
+
 import { ReactNode } from 'react';
-import Image from 'next/image';
-import { Logo } from '@/components/ui/Logo';
+import { useSearchParams } from 'next/navigation';
 import { MobileChrome } from '@/components/demo/MobileChrome';
+import { AuthProvider } from '@/lib/contexts/AuthContext';
+import { ConfigProvider } from '@/lib/contexts/ConfigContext';
 
 export default function DemoLayout({ children }: { children: ReactNode }) {
+  const searchParams = useSearchParams();
+  const viewMode = searchParams.get('viewMode') || 'mobile';
+  const isDesktop = viewMode === 'desktop';
+
   return (
-    <div className="min-h-screen bg-gray-50 pb-28">
-      {/* Mobile Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="px-6 py-4 flex items-center justify-between">
-          <Logo />
-          <button className="p-2">
-            <Image 
-              src="/hamburger-menu.png" 
-              alt="Menu"
-              width={24}
-              height={24}
-            />
-          </button>
+    <AuthProvider>
+      <ConfigProvider>
+        <div className={`min-h-screen ${!isDesktop ? 'bg-gray-50' : 'bg-transparent'}`}>
+          {children}
+
+          {/* Mobile Chrome - only show in mobile view */}
+          {!isDesktop && <MobileChrome />}
         </div>
-      </header>
-
-      {children}
-
-      <MobileChrome />
-    </div>
+      </ConfigProvider>
+    </AuthProvider>
   );
 }
 

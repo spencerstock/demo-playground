@@ -36,13 +36,19 @@ export interface ProductConfig {
     spendPermission?: {
       enabled: boolean;
       allowance: string;
-      frequency: 'Daily' | 'Weekly' | 'Monthly' | 'Never';
+      frequency: 'Daily' | 'Weekly' | 'Monthly';
       ends: 'Never' | string;
     };
     appAccount?: {
       enabled: boolean;
+      mode?: 'auto' | 'manual'; // auto = on-connect, manual = wallet_addSubAccount
+      defaultAccount?: 'sub' | 'universal'; // which account to use by default
+      funding?: 'spend-permissions' | 'manual'; // how to fund the app account
     };
   };
+  // Preview settings
+  theme?: 'light' | 'dark';
+  viewMode?: 'mobile' | 'desktop';
 }
 
 export interface DemoState {

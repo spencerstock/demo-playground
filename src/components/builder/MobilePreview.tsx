@@ -4,9 +4,21 @@ import { ReactNode } from 'react';
 
 interface MobilePreviewProps {
   children: ReactNode;
+  viewMode?: 'mobile' | 'desktop';
 }
 
-export function MobilePreview({ children }: MobilePreviewProps) {
+export function MobilePreview({ children, viewMode = 'mobile' }: MobilePreviewProps) {
+  if (viewMode === 'desktop') {
+    return (
+      <div className="bg-gray-50 rounded-xl p-8 flex items-center justify-center min-h-[600px]">
+        {/* Desktop content - full width container for iframe */}
+        <div className="w-full max-w-4xl" style={{ height: '650px' }}>
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gray-50 rounded-xl p-8 flex items-center justify-center min-h-[600px]">
       <div className="relative">
