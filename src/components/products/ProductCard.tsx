@@ -14,9 +14,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
       onClick={onClick}
     >
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 p-2.5 bg-white rounded-lg">
-          <ProductIcon icon={product.icon} />
-        </div>
+        <ProductIcon icon={product.icon} />
         <div className="flex-1">
           <h3 className="text-[15px] font-medium text-gray-900">{product.name}</h3>
           <p className="text-sm text-gray-500 mt-1 leading-snug">{product.description}</p>

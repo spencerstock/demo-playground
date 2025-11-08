@@ -51,6 +51,42 @@ export interface ProductConfig {
   viewMode?: 'mobile' | 'desktop';
 }
 
+export interface BasePayConfig {
+  productId: 'base-pay';
+  // Product details
+  product: {
+    name: string;
+    subtitle: string;
+    imageUrl: string;
+    price: string; // in USD, always used as the payment amount
+  };
+  // Payment settings
+  payment: {
+    recipientAddress: string; // default: '0x0000000000000000000000000000000000000000'
+    testnet: boolean;
+    enableTelemetry: boolean;
+  };
+  // Payer information collection (optional)
+  // Maps to SDK's PayerInfo: { requests: InfoRequest[], callbackURL?: string }
+  payerInfo: {
+    requests: {
+      email: { enabled: boolean; optional: boolean };
+      physicalAddress: { enabled: boolean; optional: boolean };
+      phoneNumber: { enabled: boolean; optional: boolean };
+      name: { enabled: boolean; optional: boolean };
+      onchainAddress: { enabled: boolean; optional: boolean };
+    };
+    callbackUrl?: string;
+  };
+  // Button styling
+  buttonStyle: {
+    colorScheme: 'light' | 'dark' | 'system';
+  };
+  // Preview settings
+  theme?: 'light' | 'dark';
+  viewMode?: 'mobile' | 'desktop';
+}
+
 export interface DemoState {
   currentStep: 'products' | 'product-detail' | 'auth' | 'confirmation' | 'permissions';
   selectedVariant?: string;

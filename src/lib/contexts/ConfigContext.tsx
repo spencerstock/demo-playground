@@ -2,24 +2,32 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { ProductConfig } from '../types';
-import { defaultConfig } from '../data/products';
+import { ProductConfig, BasePayConfig } from '../types';
+import { defaultConfig, defaultBasePayConfig } from '../data/products';
+
+type AnyConfig = ProductConfig | BasePayConfig;
 
 interface ConfigContextType {
-  config: ProductConfig;
-  updateConfig: (updates: Partial<ProductConfig>) => void;
+  config: AnyConfig;
+  updateConfig: (updates: Partial<AnyConfig>) => void;
   updateFormAppearance: (updates: Partial<ProductConfig['formAppearance']>) => void;
   updateCapabilities: (updates: Partial<ProductConfig['capabilities']>) => void;
   updateRequests: (updates: Partial<ProductConfig['requests']>) => void;
   updateTheme: (theme: 'light' | 'dark') => void;
   updateViewMode: (viewMode: 'mobile' | 'desktop') => void;
+  // Base Pay specific methods
+  updateProduct: (updates: Partial<BasePayConfig['product']>) => void;
+  updatePayment: (updates: Partial<BasePayConfig['payment']>) => void;
+  updatePayerInfo: (updates: Partial<BasePayConfig['payerInfo']>) => void;
+  updatePayerInfoRequest: (type: string, enabled: boolean, optional: boolean) => void;
+  updateButtonStyle: (updates: Partial<BasePayConfig['buttonStyle']>) => void;
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
 
-export function ConfigProvider({ children }: { children: ReactNode }) {
+export function ConfigProvider({ children, initialConfig }: { children: ReactNode; initialConfig?: AnyConfig }) {
   const searchParams = useSearchParams();
-  const [config, setConfig] = useState<ProductConfig>(defaultConfig);
+  const [config, setConfig] = useState<AnyConfig>(initialConfig || defaultConfig);
 
   // Load config from URL parameters if available
   useEffect(() => {
@@ -34,29 +42,110 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
     }
   }, [searchParams]);
 
-  const updateConfig = (updates: Partial<ProductConfig>) => {
+  const updateConfig = (updates: Partial<AnyConfig>) => {
     setConfig(prev => ({ ...prev, ...updates }));
   };
 
   const updateFormAppearance = (updates: Partial<ProductConfig['formAppearance']>) => {
-    setConfig(prev => ({
-      ...prev,
-      formAppearance: { ...prev.formAppearance, ...updates }
-    }));
+    setConfig(prev => {
+      if ('formAppearance' in prev) {
+        return {
+          ...prev,
+          formAppearance: { ...prev.formAppearance, ...updates }
+        };
+      }
+      return prev;
+    });
   };
 
   const updateCapabilities = (updates: Partial<ProductConfig['capabilities']>) => {
-    setConfig(prev => ({
-      ...prev,
-      capabilities: { ...prev.capabilities, ...updates }
-    }));
+    setConfig(prev => {
+      if ('capabilities' in prev) {
+        return {
+          ...prev,
+          capabilities: { ...prev.capabilities, ...updates }
+        };
+      }
+      return prev;
+    });
   };
 
   const updateRequests = (updates: Partial<ProductConfig['requests']>) => {
-    setConfig(prev => ({
-      ...prev,
-      requests: { ...prev.requests, ...updates }
-    }));
+    setConfig(prev => {
+      if ('requests' in prev) {
+        return {
+          ...prev,
+          requests: { ...prev.requests, ...updates }
+        };
+      }
+      return prev;
+    });
+  };
+
+  const updateProduct = (updates: Partial<BasePayConfig['product']>) => {
+    setConfig(prev => {
+      if ('product' in prev) {
+        return {
+          ...prev,
+          product: { ...prev.product, ...updates }
+        };
+      }
+      return prev;
+    });
+  };
+
+  const updatePayment = (updates: Partial<BasePayConfig['payment']>) => {
+    setConfig(prev => {
+      if ('payment' in prev) {
+        return {
+          ...prev,
+          payment: { ...prev.payment, ...updates }
+        };
+      }
+      return prev;
+    });
+  };
+
+  const updatePayerInfo = (updates: Partial<BasePayConfig['payerInfo']>) => {
+    setConfig(prev => {
+      if ('payerInfo' in prev) {
+        return {
+          ...prev,
+          payerInfo: { ...prev.payerInfo, ...updates }
+        };
+      }
+      return prev;
+    });
+  };
+
+  const updatePayerInfoRequest = (type: string, enabled: boolean, optional: boolean) => {
+    setConfig(prev => {
+      if ('payerInfo' in prev) {
+        return {
+          ...prev,
+          payerInfo: {
+            ...prev.payerInfo,
+            requests: {
+              ...prev.payerInfo.requests,
+              [type]: { enabled, optional }
+            }
+          }
+        };
+      }
+      return prev;
+    });
+  };
+
+  const updateButtonStyle = (updates: Partial<BasePayConfig['buttonStyle']>) => {
+    setConfig(prev => {
+      if ('buttonStyle' in prev) {
+        return {
+          ...prev,
+          buttonStyle: { ...prev.buttonStyle, ...updates }
+        };
+      }
+      return prev;
+    });
   };
 
   const updateTheme = (theme: 'light' | 'dark') => {
@@ -74,6 +163,11 @@ export function ConfigProvider({ children }: { children: ReactNode }) {
       updateFormAppearance,
       updateCapabilities,
       updateRequests,
+      updateProduct,
+      updatePayment,
+      updatePayerInfo,
+      updatePayerInfoRequest,
+      updateButtonStyle,
       updateTheme,
       updateViewMode
     }}>

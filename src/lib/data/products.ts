@@ -65,3 +65,33 @@ export const defaultConfig = {
   viewMode: 'mobile' as const,
 };
 
+export const defaultBasePayConfig = {
+  productId: 'base-pay' as const,
+  product: {
+    name: 'Wooden Chair',
+    subtitle: 'Comfort meets simplicity',
+    imageUrl: '/chair-blue.png',
+    price: '150.00',
+  },
+  payment: {
+    recipientAddress: '0x0000000000000000000000000000000000000000',
+    testnet: true,
+    enableTelemetry: true,
+  },
+  payerInfo: {
+    requests: {
+      email: { enabled: false, optional: false },
+      physicalAddress: { enabled: false, optional: false },
+      phoneNumber: { enabled: false, optional: false },
+      name: { enabled: false, optional: false },
+      onchainAddress: { enabled: false, optional: false },
+    },
+    callbackUrl: '',
+  },
+  buttonStyle: {
+    colorScheme: 'light' as const,
+  },
+  theme: 'light' as const,
+  viewMode: 'mobile' as const,
+};
+

@@ -121,18 +121,17 @@ export default function AuthConfirmPage() {
 
       {/* Permission Details */}
       <div className={spacing.section.lg}>
-        {config.capabilities.signInWithEthereum && (
-          <div className={`flex items-start ${spacing.gap.md} ${spacing.element.lg}`}>
-            <svg className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <div className="flex-1">
-              <p className="text-sm text-gray-900">
-                See your onchain address, balance and activity.
-              </p>
-            </div>
+        {/* Always show SIWE permission - it's fundamental to signing in with Base */}
+        <div className={`flex items-start ${spacing.gap.md} ${spacing.element.lg}`}>
+          <svg className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div className="flex-1">
+            <p className="text-sm text-gray-900">
+              See your onchain address, balance and activity.
+            </p>
           </div>
-        )}
+        </div>
 
         {config.requests.appAccount?.enabled && (
           <div className={`flex items-start ${spacing.gap.md} ${spacing.element.lg}`}>
