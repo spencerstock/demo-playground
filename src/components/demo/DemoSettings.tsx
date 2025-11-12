@@ -12,6 +12,11 @@ export function DemoSettings() {
   const [activeTab, setActiveTab] = useState<Tab>('appearance');
   const { config, updateFormAppearance, updateCapabilities, updateRequests } = useConfig();
 
+  // This component is only for ProductConfig, not BasePayConfig
+  if (!('formAppearance' in config) || !('capabilities' in config) || !('requests' in config)) {
+    return null;
+  }
+
   return (
     <div className="border-t border-gray-200 bg-gray-50">
       <button
@@ -19,16 +24,16 @@ export function DemoSettings() {
         className="w-full px-6 py-4 flex items-center justify-between text-sm font-medium text-gray-700"
       >
         Demo settings
-        <svg 
+        <svg
           className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none" 
-          stroke="currentColor" 
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
-      
+
       {isOpen && (
         <div className="px-6 pb-6 space-y-4">
           {/* Tabs */}
@@ -111,12 +116,14 @@ export function DemoSettings() {
                 <input
                   type="checkbox"
                   checked={config.requests.spendPermission?.enabled || false}
-                  onChange={(e) => updateRequests({
-                    spendPermission: { 
-                      ...config.requests.spendPermission!,
-                      enabled: e.target.checked 
-                    }
-                  })}
+                  onChange={(e) =>
+                    updateRequests({
+                      spendPermission: {
+                        ...config.requests.spendPermission!,
+                        enabled: e.target.checked,
+                      },
+                    })
+                  }
                   className="w-5 h-5 accent-black cursor-pointer"
                 />
               </div>
@@ -126,12 +133,14 @@ export function DemoSettings() {
                   <Input
                     label="Allowance (ETH)"
                     value={config.requests.spendPermission.allowance}
-                    onChange={(e) => updateRequests({
-                      spendPermission: { 
-                        ...config.requests.spendPermission!,
-                        allowance: e.target.value 
-                      }
-                    })}
+                    onChange={(e) =>
+                      updateRequests({
+                        spendPermission: {
+                          ...config.requests.spendPermission!,
+                          allowance: e.target.value,
+                        },
+                      })
+                    }
                     placeholder="0.01"
                   />
 
@@ -141,12 +150,14 @@ export function DemoSettings() {
                     </label>
                     <select
                       value={config.requests.spendPermission.frequency}
-                      onChange={(e) => updateRequests({
-                        spendPermission: { 
-                          ...config.requests.spendPermission!,
-                          frequency: e.target.value as 'Daily' | 'Weekly' | 'Monthly'
-                        }
-                      })}
+                      onChange={(e) =>
+                        updateRequests({
+                          spendPermission: {
+                            ...config.requests.spendPermission!,
+                            frequency: e.target.value as 'Daily' | 'Weekly' | 'Monthly',
+                          },
+                        })
+                      }
                       className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                     >
                       <option value="Daily">Daily</option>
@@ -156,17 +167,17 @@ export function DemoSettings() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                      Ends
-                    </label>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">Ends</label>
                     <select
                       value={config.requests.spendPermission.ends}
-                      onChange={(e) => updateRequests({
-                        spendPermission: { 
-                          ...config.requests.spendPermission!,
-                          ends: e.target.value 
-                        }
-                      })}
+                      onChange={(e) =>
+                        updateRequests({
+                          spendPermission: {
+                            ...config.requests.spendPermission!,
+                            ends: e.target.value,
+                          },
+                        })
+                      }
                       className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                     >
                       <option value="Never">Never</option>
@@ -178,14 +189,18 @@ export function DemoSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-[15px] text-gray-900">App account</div>
-                  <div className="text-sm text-gray-500 mt-0.5">A dedicated account for your app</div>
+                  <div className="text-sm text-gray-500 mt-0.5">
+                    A dedicated account for your app
+                  </div>
                 </div>
                 <input
                   type="checkbox"
                   checked={config.requests.appAccount?.enabled || false}
-                  onChange={(e) => updateRequests({
-                    appAccount: { enabled: e.target.checked }
-                  })}
+                  onChange={(e) =>
+                    updateRequests({
+                      appAccount: { enabled: e.target.checked },
+                    })
+                  }
                   className="w-5 h-5 accent-black cursor-pointer"
                 />
               </div>
@@ -196,4 +211,3 @@ export function DemoSettings() {
     </div>
   );
 }
-

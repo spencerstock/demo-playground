@@ -19,7 +19,9 @@ export default function SignInProductPage() {
 
   const handleSignIn = () => {
     // Pass config and viewMode to auth page
-    router.push(`/demo/auth?config=${encodeURIComponent(JSON.stringify(config))}&viewMode=${viewMode}`);
+    router.push(
+      `/demo/auth?config=${encodeURIComponent(JSON.stringify(config))}&viewMode=${viewMode}`
+    );
   };
 
   // Show authenticated state
@@ -30,12 +32,13 @@ export default function SignInProductPage() {
           {/* App Logo */}
           <div className={spacing.section.lg}>
             <div className="relative w-16 h-16">
-              {config.formAppearance.logoUrl && !logoError ? (
+              {'formAppearance' in config && config.formAppearance.logoUrl && !logoError ? (
                 <Image
                   key={config.formAppearance.logoUrl}
                   src={
-                    config.formAppearance.logoUrl.startsWith('http://') || config.formAppearance.logoUrl.startsWith('https://') 
-                      ? config.formAppearance.logoUrl 
+                    config.formAppearance.logoUrl.startsWith('http://') ||
+                    config.formAppearance.logoUrl.startsWith('https://')
+                      ? config.formAppearance.logoUrl
                       : `https://${config.formAppearance.logoUrl}/favicon.ico`
                   }
                   alt={config.formAppearance.appName || 'App Logo'}
@@ -82,12 +85,7 @@ export default function SignInProductPage() {
         {/* Base Logo */}
         <div className={spacing.section.lg}>
           <div className="w-24 h-24 flex items-center justify-center">
-            <Image
-              src="/base-logo-blue.svg"
-              alt="Base"
-              width={96}
-              height={96}
-            />
+            <Image src="/base-logo-blue.svg" alt="Base" width={96} height={96} />
           </div>
         </div>
 
@@ -113,4 +111,3 @@ export default function SignInProductPage() {
     </MobileContentContainer>
   );
 }
-

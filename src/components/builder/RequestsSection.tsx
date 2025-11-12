@@ -5,12 +5,18 @@ import { useConfig } from '@/lib/contexts/ConfigContext';
 
 export function RequestsSection() {
   const { config, updateRequests } = useConfig();
+
+  // This section is only for ProductConfig, not BasePayConfig
+  if (!('requests' in config)) {
+    return null;
+  }
+
   const spendPermission = config.requests.spendPermission;
 
   return (
     <div className="space-y-6">
       <h3 className="text-[15px] font-semibold text-gray-900">Requests</h3>
-      
+
       <div className="space-y-5">
         <div className="flex items-center justify-between">
           <div>
@@ -20,9 +26,11 @@ export function RequestsSection() {
           <input
             type="checkbox"
             checked={spendPermission?.enabled || false}
-            onChange={(e) => updateRequests({
-              spendPermission: { ...spendPermission!, enabled: e.target.checked }
-            })}
+            onChange={(e) =>
+              updateRequests({
+                spendPermission: { ...spendPermission!, enabled: e.target.checked },
+              })
+            }
             className="w-5 h-5 accent-black cursor-pointer"
           />
         </div>
@@ -32,24 +40,26 @@ export function RequestsSection() {
             <Input
               label="Allowance (ETH)"
               value={spendPermission.allowance}
-              onChange={(e) => updateRequests({
-                spendPermission: { ...spendPermission, allowance: e.target.value }
-              })}
+              onChange={(e) =>
+                updateRequests({
+                  spendPermission: { ...spendPermission, allowance: e.target.value },
+                })
+              }
               placeholder="0.01"
             />
 
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Frequency
-              </label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Frequency</label>
               <select
                 value={spendPermission.frequency}
-                onChange={(e) => updateRequests({
-                  spendPermission: { 
-                    ...spendPermission, 
-                    frequency: e.target.value as 'Daily' | 'Weekly' | 'Monthly'
-                  }
-                })}
+                onChange={(e) =>
+                  updateRequests({
+                    spendPermission: {
+                      ...spendPermission,
+                      frequency: e.target.value as 'Daily' | 'Weekly' | 'Monthly',
+                    },
+                  })
+                }
                 className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="Daily">Daily</option>
@@ -59,14 +69,14 @@ export function RequestsSection() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Ends
-              </label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Ends</label>
               <select
                 value={spendPermission.ends}
-                onChange={(e) => updateRequests({
-                  spendPermission: { ...spendPermission, ends: e.target.value }
-                })}
+                onChange={(e) =>
+                  updateRequests({
+                    spendPermission: { ...spendPermission, ends: e.target.value },
+                  })
+                }
                 className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="Never">Never</option>
@@ -83,15 +93,17 @@ export function RequestsSection() {
           <input
             type="checkbox"
             checked={config.requests.appAccount?.enabled || false}
-            onChange={(e) => updateRequests({
-              appAccount: { 
-                ...config.requests.appAccount,
-                enabled: e.target.checked,
-                mode: 'auto', // Always use auto mode for demo
-                defaultAccount: config.requests.appAccount?.defaultAccount || 'sub',
-                funding: config.requests.appAccount?.funding || 'spend-permissions',
-              }
-            })}
+            onChange={(e) =>
+              updateRequests({
+                appAccount: {
+                  ...config.requests.appAccount,
+                  enabled: e.target.checked,
+                  mode: 'auto', // Always use auto mode for demo
+                  defaultAccount: config.requests.appAccount?.defaultAccount || 'sub',
+                  funding: config.requests.appAccount?.funding || 'spend-permissions',
+                },
+              })
+            }
             className="w-5 h-5 accent-black cursor-pointer"
           />
         </div>
@@ -104,12 +116,16 @@ export function RequestsSection() {
               </label>
               <select
                 value={config.requests.appAccount.defaultAccount || 'sub'}
-                onChange={(e) => updateRequests({
-                  appAccount: { 
-                    ...config.requests.appAccount, 
-                    defaultAccount: e.target.value as 'sub' | 'universal'
-                  }
-                })}
+                onChange={(e) =>
+                  updateRequests({
+                    appAccount: {
+                      enabled: config.requests.appAccount?.enabled || true,
+                      mode: config.requests.appAccount?.mode || 'auto',
+                      defaultAccount: e.target.value as 'sub' | 'universal',
+                      funding: config.requests.appAccount?.funding || 'spend-permissions',
+                    },
+                  })
+                }
                 className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="sub">App Account</option>
@@ -121,17 +137,19 @@ export function RequestsSection() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Funding Mode
-              </label>
+              <label className="block text-sm font-medium text-gray-900 mb-2">Funding Mode</label>
               <select
                 value={config.requests.appAccount.funding || 'spend-permissions'}
-                onChange={(e) => updateRequests({
-                  appAccount: { 
-                    ...config.requests.appAccount, 
-                    funding: e.target.value as 'spend-permissions' | 'manual'
-                  }
-                })}
+                onChange={(e) =>
+                  updateRequests({
+                    appAccount: {
+                      enabled: config.requests.appAccount?.enabled || true,
+                      mode: config.requests.appAccount?.mode || 'auto',
+                      defaultAccount: config.requests.appAccount?.defaultAccount || 'sub',
+                      funding: e.target.value as 'spend-permissions' | 'manual',
+                    },
+                  })
+                }
                 className="w-full px-4 py-2.5 text-[15px] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
               >
                 <option value="spend-permissions">Spend Permissions</option>
@@ -149,4 +167,3 @@ export function RequestsSection() {
     </div>
   );
 }
-

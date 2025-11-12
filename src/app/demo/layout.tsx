@@ -1,12 +1,12 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { MobileChrome } from '@/components/demo/MobileChrome';
 import { AuthProvider } from '@/lib/contexts/AuthContext';
 import { ConfigProvider } from '@/lib/contexts/ConfigContext';
 
-export default function DemoLayout({ children }: { children: ReactNode }) {
+function DemoLayoutContent({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
   const viewMode = searchParams.get('viewMode') || 'mobile';
   const isDesktop = viewMode === 'desktop';
@@ -25,3 +25,12 @@ export default function DemoLayout({ children }: { children: ReactNode }) {
   );
 }
 
+export default function DemoLayout({ children }: { children: ReactNode }) {
+  return (
+    <Suspense
+      fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
+    >
+      <DemoLayoutContent>{children}</DemoLayoutContent>
+    </Suspense>
+  );
+}

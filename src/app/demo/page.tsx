@@ -9,11 +9,7 @@ export default function DemoProductsPage() {
       <h1 className={`text-2xl font-bold ${spacing.section.md}`}>Products</h1>
       <div className={`flex flex-col ${spacing.gap.lg}`}>
         {baseProducts.map((product) => (
-          <Link 
-            key={product.id}
-            href={`/demo/products/${product.id}`}
-            className="block"
-          >
+          <Link key={product.id} href={`/demo/products/${product.id}`} className="block">
             <ProductCard product={product} />
           </Link>
         ))}
@@ -21,4 +17,3 @@ export default function DemoProductsPage() {
     </MobileContentContainer>
   );
 }
-

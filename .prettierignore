@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Cache
+.cache/
+.turbo/
+
+# Logs
+*.log
+
+# Misc
+.DS_Store
+*.pem
+
+# Lock files
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# Type definitions
+*.d.ts
+
+# Config files that should remain as-is
+tsconfig.json
+tsconfig.tsbuildinfo
+

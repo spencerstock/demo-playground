@@ -9,12 +9,8 @@ export function Toggle({ checked, onChange, label, description }: ToggleProps) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex-1">
-        {label && (
-          <div className="text-[15px] text-gray-900">{label}</div>
-        )}
-        {description && (
-          <div className="text-sm text-gray-500 mt-0.5">{description}</div>
-        )}
+        {label && <div className="text-[15px] text-gray-900">{label}</div>}
+        {description && <div className="text-sm text-gray-500 mt-0.5">{description}</div>}
       </div>
       <button
         type="button"
@@ -35,4 +31,3 @@ export function Toggle({ checked, onChange, label, description }: ToggleProps) {
     </div>
   );
 }
-
