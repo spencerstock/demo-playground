@@ -1,4 +1,4 @@
-import { Product, EcommerceProduct } from '../types';
+import { Product, EcommerceProduct, ProductConfig } from '../types';
 
 export const baseProducts: Product[] = [
   {
@@ -63,6 +63,33 @@ export const defaultConfig = {
   },
   theme: 'light' as const,
   viewMode: 'mobile' as const,
+};
+
+export const defaultTransactConfig: ProductConfig = {
+  ...defaultConfig,
+  productId: 'transact',
+  formAppearance: {
+    ...defaultConfig.formAppearance,
+  },
+  capabilities: {
+    ...defaultConfig.capabilities,
+    signInWithEthereum: true,
+    requestAppAccount: true,
+  },
+  requests: {
+    spendPermission: {
+      enabled: true,
+      allowance: '0.05',
+      frequency: 'Weekly',
+      ends: 'Never',
+    },
+    appAccount: {
+      enabled: true,
+      mode: 'auto',
+      defaultAccount: 'sub',
+      funding: 'spend-permissions',
+    },
+  },
 };
 
 export const defaultBasePayConfig = {
