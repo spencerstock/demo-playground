@@ -95,4 +95,3 @@ export interface DemoState {
     address: string;
   };
 }
-

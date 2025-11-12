@@ -15,7 +15,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
     } else {
       document.body.style.overflow = 'unset';
     }
-    
+
     return () => {
       document.body.style.overflow = 'unset';
     };
@@ -26,7 +26,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-full items-center justify-center p-4">
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-40 transition-opacity"
           onClick={onClose}
         />
@@ -37,5 +37,3 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
     </div>
   );
 }
-
-

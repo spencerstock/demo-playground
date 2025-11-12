@@ -45,7 +45,7 @@ export function PayerInfoSection({
     { value: 'optional', label: 'Optional' },
   ];
 
-  const anyEnabled = Object.values(requests).some(req => req.enabled);
+  const anyEnabled = Object.values(requests).some((req) => req.enabled);
 
   const getRequestState = (request: PayerInfoRequest): RequestState => {
     if (!request.enabled) return 'disabled';
@@ -107,19 +107,25 @@ export function PayerInfoSection({
 
   const getCurrentPreset = (): Preset | null => {
     // Check if matches "all"
-    if (requestTypes.every(({ key }) => {
-      const req = requests[key as keyof typeof requests];
-      return req.enabled && !req.optional;
-    })) {
+    if (
+      requestTypes.every(({ key }) => {
+        const req = requests[key as keyof typeof requests];
+        return req.enabled && !req.optional;
+      })
+    ) {
       return 'all';
     }
 
     // Check if matches "ecommerce"
     if (
-      requests.email.enabled && !requests.email.optional &&
-      requests.name.enabled && !requests.name.optional &&
-      requests.physicalAddress.enabled && !requests.physicalAddress.optional &&
-      requests.phoneNumber.enabled && requests.phoneNumber.optional &&
+      requests.email.enabled &&
+      !requests.email.optional &&
+      requests.name.enabled &&
+      !requests.name.optional &&
+      requests.physicalAddress.enabled &&
+      !requests.physicalAddress.optional &&
+      requests.phoneNumber.enabled &&
+      requests.phoneNumber.optional &&
       !requests.onchainAddress.enabled
     ) {
       return 'ecommerce';
@@ -127,7 +133,8 @@ export function PayerInfoSection({
 
     // Check if matches "email-only"
     if (
-      requests.email.enabled && !requests.email.optional &&
+      requests.email.enabled &&
+      !requests.email.optional &&
       !requests.physicalAddress.enabled &&
       !requests.phoneNumber.enabled &&
       !requests.name.enabled &&
@@ -151,13 +158,10 @@ export function PayerInfoSection({
               Request additional information from the payer during checkout
             </p>
           </div>
-          <Toggle
-            checked={anyEnabled}
-            onChange={handleMasterToggle}
-          />
+          <Toggle checked={anyEnabled} onChange={handleMasterToggle} />
         </div>
       </div>
-      
+
       {anyEnabled && (
         <>
           <div className="flex gap-2">
@@ -192,9 +196,7 @@ export function PayerInfoSection({
               All
             </button>
             {currentPreset === null && (
-              <span className="px-3 py-1.5 text-sm text-gray-500 italic">
-                Custom
-              </span>
+              <span className="px-3 py-1.5 text-sm text-gray-500 italic">Custom</span>
             )}
           </div>
 
@@ -202,7 +204,7 @@ export function PayerInfoSection({
             {requestTypes.map(({ key, label }) => {
               const request = requests[key as keyof typeof requests];
               const currentState = getRequestState(request);
-              
+
               return (
                 <div key={key} className="flex items-center gap-3">
                   <label className="text-sm font-medium text-gray-700 w-40 flex-shrink-0">
@@ -214,7 +216,7 @@ export function PayerInfoSection({
                       onChange={(e) => handleStateChange(key, e.target.value as RequestState)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      {stateOptions.map(option => (
+                      {stateOptions.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
@@ -236,10 +238,14 @@ export function PayerInfoSection({
             <div className="mt-2 text-sm text-gray-600 space-y-1">
               <p className="font-medium">Where should we send the collected information?</p>
               <p className="text-gray-500">
-                After payment, we&apos;ll POST the payer&apos;s information to this URL. Use this to save customer data to your database, fulfill orders, or trigger email sequences.
+                After payment, we&apos;ll POST the payer&apos;s information to this URL. Use this to
+                save customer data to your database, fulfill orders, or trigger email sequences.
               </p>
               <p className="text-xs text-gray-400 mt-1">
-                Example: <code className="bg-gray-100 px-1 py-0.5 rounded">https://api.yoursite.com/webhooks/base-pay</code>
+                Example:{' '}
+                <code className="bg-gray-100 px-1 py-0.5 rounded">
+                  https://api.yoursite.com/webhooks/base-pay
+                </code>
               </p>
             </div>
           </div>
@@ -248,4 +254,3 @@ export function PayerInfoSection({
     </div>
   );
 }
-

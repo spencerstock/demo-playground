@@ -1,4 +1,3 @@
-import { Card } from '../ui/Card';
 import { ProductIcon } from './ProductIcon';
 import { Product } from '@/lib/types';
 
@@ -9,7 +8,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product, onClick }: ProductCardProps) {
   return (
-    <div 
+    <div
       className="bg-gray-100 rounded-xl p-4 hover:bg-gray-200 cursor-pointer transition-all duration-150"
       onClick={onClick}
     >
@@ -23,4 +22,3 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
     </div>
   );
 }
-

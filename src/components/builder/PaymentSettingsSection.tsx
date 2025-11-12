@@ -30,7 +30,7 @@ export function PaymentSettingsSection({
   return (
     <div className="space-y-6">
       <h3 className="text-[15px] font-semibold text-gray-900">Payment settings</h3>
-      
+
       <div className="space-y-5">
         <div>
           <Input
@@ -51,9 +51,7 @@ export function PaymentSettingsSection({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Network
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Network</label>
           <Select
             value={testnet ? 'testnet' : 'mainnet'}
             onChange={(e) => onTestnetChange(e.target.value === 'testnet')}
@@ -74,5 +72,3 @@ export function PaymentSettingsSection({
     </div>
   );
 }
-
-

@@ -15,7 +15,7 @@ export function ColorSelector() {
     <div className="space-y-3">
       <div className="text-sm font-medium text-gray-900">Select color</div>
       <div className="flex gap-2">
-        {colors.map(color => (
+        {colors.map((color) => (
           <button
             key={color.value}
             onClick={() => setSelected(color.value)}
@@ -32,5 +32,3 @@ export function ColorSelector() {
     </div>
   );
 }
-
-
