@@ -74,6 +74,12 @@ export const defaultBasePayConfig = {
     imageUrl: '/chair-blue.png',
     price: '150.00',
   },
+  formAppearance: {
+    showContactInfo: true,
+    showShippingInfo: true,
+    logoUrl: '',
+    appName: '',
+  },
   payment: {
     recipientAddress: '0x0000000000000000000000000000000000000000',
     testnet: true,

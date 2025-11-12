@@ -60,6 +60,12 @@ export interface BasePayConfig {
     imageUrl: string;
     price: string; // in USD, always used as the payment amount
   };
+  formAppearance: {
+    showContactInfo: boolean;
+    showShippingInfo: boolean;
+    logoUrl: string;
+    appName: string;
+  };
   // Payment settings
   payment: {
     recipientAddress: string; // default: '0x0000000000000000000000000000000000000000'

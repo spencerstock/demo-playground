@@ -1,24 +1,37 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { SignInWithBaseButton } from '@base-org/account-ui/react';
 import { useConfig } from '@/lib/contexts/ConfigContext';
+import { useSDK } from '@/lib/contexts/SDKContext';
 import { spacing } from '@/components/demo/MobileContentContainer';
 
-function AuthPageContent() {
-  const router = useRouter();
+export default function AuthPage() {
   const searchParams = useSearchParams();
   const { config } = useConfig();
+  const { provider } = useSDK();
   const [logoError, setLogoError] = useState(false);
   const viewMode = searchParams.get('viewMode') || 'mobile';
 
-  const handleSignIn = () => {
-    // Navigate to confirmation page with config and viewMode
-    router.push(
-      `/demo/auth/confirm?config=${encodeURIComponent(JSON.stringify(config))}&viewMode=${viewMode}`
-    );
+  // const handleSignIn = () => {
+  //   // Navigate to confirmation page with config and viewMode
+  //   router.push(`/demo/auth/confirm?config=${encodeURIComponent(JSON.stringify(config))}&viewMode=${viewMode}`);
+  // };
+
+  const handleSignIn = async () => {
+    try {
+      // Request basic connection
+      const response = await provider.request({
+        method: 'wallet_connect',
+        params: [{ version: '1' }],
+      });
+
+      console.log('Connected:', response);
+    } catch (error) {
+      console.error('Connection failed:', error);
+    }
   };
 
   return (
@@ -31,7 +44,7 @@ function AuthPageContent() {
           {/* App Logo */}
           <div className={`flex justify-center ${spacing.section.md}`}>
             <div className="relative w-16 h-16">
-              {'formAppearance' in config && config.formAppearance.logoUrl && !logoError ? (
+              {config.formAppearance.logoUrl && !logoError ? (
                 <Image
                   key={config.formAppearance.logoUrl}
                   src={
@@ -61,7 +74,7 @@ function AuthPageContent() {
 
           {/* Title */}
           <h2 className={`text-2xl font-bold text-center text-gray-900 ${spacing.section.lg}`}>
-            {'formAppearance' in config && config.formAppearance.appName
+            {config.formAppearance.appName
               ? `Sign into ${config.formAppearance.appName}`
               : 'Sign in with Base'}
           </h2>
@@ -75,15 +88,5 @@ function AuthPageContent() {
         </div>
       </div>
     </div>
-  );
-}
-
-export default function AuthPage() {
-  return (
-    <Suspense
-      fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
-    >
-      <AuthPageContent />
-    </Suspense>
   );
 }
