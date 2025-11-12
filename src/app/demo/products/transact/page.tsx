@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { MobileContentContainer, spacing } from '@/components/demo/MobileContentContainer';
 import { useConfig } from '@/lib/contexts/ConfigContext';
 import { useSDK } from '@/lib/contexts/SDKContext';
+<<<<<<< HEAD
 import { encodeFunctionData } from 'viem';
 import { parseUnits } from 'viem';
 import { numberToHex } from 'viem';
@@ -47,6 +48,10 @@ const USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
 
 // NFT contract address on Base Sepolia
 const NFT_CONTRACT_ADDRESS = '0x82039e7C37D7aAc98D0F4d0A762F4E0d8c8DC273';
+=======
+
+type MintStage = 'idle' | 'minting' | 'success';
+>>>>>>> 7c2dc9b (update transact)
 
 export default function TransactProductPage() {
   const searchParams = useSearchParams();
@@ -75,6 +80,7 @@ export default function TransactProductPage() {
     setStage('minting');
 
     try {
+<<<<<<< HEAD
       const cryptoAccount = await getCryptoKeyAccount();
       const fromAddress = cryptoAccount?.account?.address;
 
@@ -113,6 +119,28 @@ export default function TransactProductPage() {
                 data: call2Data,
               },
             ],
+=======
+      const connection = await provider.request({
+        method: 'wallet_connect',
+        params: [{ version: '1', capabilities: {} }],
+      });
+
+      const [{ address }] = connection;
+
+      if (!address) {
+        throw new Error('Wallet connection failed');
+      }
+
+      await provider.request({
+        method: 'wallet_sendTransaction',
+        params: [
+          {
+            chainId: '0x14a34', // Base Sepolia
+            to: '0x0000000000000000000000000000000000000000', // Demo NFT contract
+            from: address,
+            value: '0x6f05b59d3b2000', // 0.0005 ETH
+            data: '0x', // Encoded mint data
+>>>>>>> 7c2dc9b (update transact)
           },
         ],
       });

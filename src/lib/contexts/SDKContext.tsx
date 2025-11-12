@@ -1,16 +1,16 @@
 'use client';
 
-import { createContext, useContext, ReactNode, useState, useEffect, useRef } from 'react';
+import { createContext, useContext, ReactNode, useMemo } from 'react';
 import { createBaseAccountSDK } from '@base-org/account';
 
-interface SDKContextType {
-  sdk: ReturnType<typeof createBaseAccountSDK> | null;
-  provider: ReturnType<ReturnType<typeof createBaseAccountSDK>['getProvider']> | null;
+interface SDKContextValue {
+  sdk: ReturnType<typeof createBaseAccountSDK>;
+  provider: ReturnType<ReturnType<typeof createBaseAccountSDK>['getProvider']>;
 }
 
-const SDKContext = createContext<SDKContextType | undefined>(undefined);
+const SDKContext = createContext<SDKContextValue | undefined>(undefined);
 
-export interface SDKProviderProps {
+interface SDKProviderProps {
   children: ReactNode;
   appName?: string;
   appChainIds?: number[];
@@ -21,49 +21,32 @@ export interface SDKProviderProps {
 export function SDKProvider({
   children,
   appName = 'Base Demo Playground',
-  appChainIds = [8453], // Base mainnet
+  appChainIds = [8453],
   walletUrl = 'https://keys.coinbase.com/connect?externalCorrelationId=pl_01k9wzx0h3fcts0g1ya3bfkswa',
   mode = 'embedded',
 }: SDKProviderProps) {
-  const [sdkState, setSDKState] = useState<SDKContextType>({
-    sdk: null,
-    provider: null,
-  });
-  const initializingRef = useRef(false);
+  const sdk = useMemo(() => {
+    return createBaseAccountSDK({
+      appName,
+      appChainIds,
+      preference: {
+        walletUrl,
+        mode,
+      },
+    });
+  }, [appName, appChainIds, walletUrl, mode]);
 
-  // Create SDK instance only on the client side
-  useEffect(() => {
-    // Prevent double initialization in development mode (React StrictMode)
-    if (initializingRef.current) return;
-    initializingRef.current = true;
+  const provider = useMemo(() => sdk.getProvider(), [sdk]);
 
-    // Only initialize if not already initialized
-    if (typeof window !== 'undefined') {
-      const sdkInstance = createBaseAccountSDK({
-        appName,
-        appChainIds,
-        preference: {
-          walletUrl,
-          mode,
-        },
-      });
-
-      // Single state update to avoid cascading renders
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSDKState({
-        sdk: sdkInstance,
-        provider: sdkInstance.getProvider(),
-      });
-    }
-  }, [appChainIds, appName, mode, walletUrl]);
-
-  return <SDKContext.Provider value={sdkState}>{children}</SDKContext.Provider>;
+  return <SDKContext.Provider value={{ sdk, provider }}>{children}</SDKContext.Provider>;
 }
 
 export function useSDK() {
   const context = useContext(SDKContext);
   if (!context) {
-    throw new Error('useSDK must be used within SDKProvider');
+    throw new Error('useSDK must be used within an SDKProvider');
   }
   return context;
 }
+
+
