@@ -1,25 +1,20 @@
 'use client';
 
 import { Input } from '../ui/Input';
-import { Toggle } from '../ui/Toggle';
 import { Select } from '../ui/Select';
 
 interface PaymentSettingsSectionProps {
   recipientAddress: string;
   testnet: boolean;
-  enableTelemetry: boolean;
   onRecipientAddressChange: (value: string) => void;
   onTestnetChange: (value: boolean) => void;
-  onEnableTelemetryChange: (value: boolean) => void;
 }
 
 export function PaymentSettingsSection({
   recipientAddress,
   testnet,
-  enableTelemetry,
   onRecipientAddressChange,
   onTestnetChange,
-  onEnableTelemetryChange,
 }: PaymentSettingsSectionProps) {
   const isValidAddress = (address: string) => {
     return /^0x[a-fA-F0-9]{40}$/.test(address);
@@ -30,7 +25,7 @@ export function PaymentSettingsSection({
   return (
     <div className="space-y-6">
       <h3 className="text-[15px] font-semibold text-gray-900">Payment settings</h3>
-      
+
       <div className="space-y-5">
         <div>
           <Input
@@ -51,9 +46,7 @@ export function PaymentSettingsSection({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Network
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Network</label>
           <Select
             value={testnet ? 'testnet' : 'mainnet'}
             onChange={(e) => onTestnetChange(e.target.value === 'testnet')}
@@ -63,16 +56,7 @@ export function PaymentSettingsSection({
             ]}
           />
         </div>
-
-        <Toggle
-          label="Enable telemetry"
-          checked={enableTelemetry}
-          onChange={onEnableTelemetryChange}
-          description="Send usage data to help improve the SDK"
-        />
       </div>
     </div>
   );
 }
-
-

@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import { Providers } from "@/components/Providers";
+import type { Metadata } from 'next';
+import './globals.css';
+import { Providers } from '@/components/Providers';
 
 export const metadata: Metadata = {
-  title: "Base Demo Playground",
-  description: "Build and preview Base blockchain product integrations",
+  title: 'Base Demo Playground',
+  description: 'Build and preview Base blockchain product integrations',
 };
 
 export default function RootLayout({

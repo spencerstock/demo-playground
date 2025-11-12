@@ -17,5 +17,3 @@ export default function BasePayProductPage() {
     </div>
   );
 }
-
-

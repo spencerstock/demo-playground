@@ -6,10 +6,15 @@ import { useConfig } from '@/lib/contexts/ConfigContext';
 export function FormAppearanceSection() {
   const { config, updateFormAppearance } = useConfig();
 
+  // This section is only for ProductConfig, not BasePayConfig
+  if (!('formAppearance' in config)) {
+    return null;
+  }
+
   return (
     <div className="space-y-6">
       <h3 className="text-[15px] font-semibold text-gray-900">Form appearance</h3>
-      
+
       <div className="space-y-5">
         <Input
           label="Logo URL"
@@ -28,4 +33,3 @@ export function FormAppearanceSection() {
     </div>
   );
 }
-

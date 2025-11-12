@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
@@ -17,42 +17,60 @@ import { BasePayConfig } from '@/lib/types';
 function ConfigurePageContent() {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [refreshKey, setRefreshKey] = useState(0);
-  const { config, updateProduct, updatePayment, updatePayerInfoRequest, updatePayerInfo, updateButtonStyle, updateTheme, updateViewMode } = useConfig();
+  const [shareButtonText, setShareButtonText] = useState('Share preview');
+  const {
+    config,
+    updateProduct,
+    updatePayment,
+    updatePayerInfoRequest,
+    updatePayerInfo,
+    updateButtonStyle,
+    updateTheme,
+    updateViewMode,
+  } = useConfig();
 
   // Type guard to ensure we have a BasePayConfig
   const basePayConfig = config as BasePayConfig;
 
+  const handleSharePreview = async () => {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('config', JSON.stringify(basePayConfig));
+      await navigator.clipboard.writeText(url.toString());
+      setShareButtonText('Copied!');
+      setTimeout(() => setShareButtonText('Share preview'), 2500);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+    }
+  };
+
   const generateCode = () => {
     const lines: string[] = [];
-    
+
     // Imports
     lines.push(`import { pay } from '@base-org/account';`);
     lines.push(`import { BasePayButton } from '@base-org/account-ui/react';`);
     lines.push('');
-    
+
     // Component
     lines.push('function CheckoutPage() {');
     lines.push('  const handlePayment = async () => {');
     lines.push('    try {');
-    
+
     // Build the payment options
     lines.push('      const result = await pay({');
     lines.push(`        amount: "${basePayConfig.product.price}",`);
     lines.push(`        to: "${basePayConfig.payment.recipientAddress}",`);
-    
+
     if (basePayConfig.payment.testnet) {
       lines.push('        testnet: true,');
     }
-    
-    if (!basePayConfig.payment.enableTelemetry) {
-      lines.push('        telemetry: false,');
-    }
-    
+
     // Add payerInfo if any requests are enabled
     const enabledRequests = Object.entries(basePayConfig.payerInfo.requests)
-      .filter(([_, req]) => req.enabled)
+      .filter(([, req]) => req.enabled)
       .map(([type, req]) => ({ type, optional: req.optional }));
-    
+
     if (enabledRequests.length > 0) {
       lines.push('        payerInfo: {');
       lines.push('          requests: [');
@@ -65,22 +83,22 @@ function ConfigurePageContent() {
         }
       });
       lines.push('          ],');
-      
+
       if (basePayConfig.payerInfo.callbackUrl) {
         lines.push(`          callbackURL: '${basePayConfig.payerInfo.callbackUrl}',`);
       }
-      
+
       lines.push('        },');
     }
-    
+
     lines.push('      });');
     lines.push('');
     lines.push('      if (result.success) {');
-    lines.push('        console.log(\'Payment successful!\', result.id);');
+    lines.push("        console.log('Payment successful!', result.id);");
     lines.push('        // Handle successful payment');
     lines.push('      }');
     lines.push('    } catch (error) {');
-    lines.push('      console.error(\'Payment failed:\', error);');
+    lines.push("      console.error('Payment failed:', error);");
     lines.push('      // Handle payment error');
     lines.push('    }');
     lines.push('  };');
@@ -98,7 +116,7 @@ function ConfigurePageContent() {
     lines.push('    </div>');
     lines.push('  );');
     lines.push('}');
-    
+
     return lines.join('\n');
   };
 
@@ -111,34 +129,63 @@ function ConfigurePageContent() {
             <Logo />
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="secondary">
-              Share preview
+            <Button variant="secondary" onClick={handleSharePreview}>
+              {shareButtonText}
             </Button>
-            <Button>
-              Start building
-              <svg className="ml-2 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Button>
+            <a
+              href="https://docs.base.org/base-account/guides/accept-payments"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button>
+                Start building
+                <svg
+                  className="ml-2 w-4 h-4 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Button>
+            </a>
           </div>
         </div>
       </header>
 
       <div className="flex">
         {/* Left Panel - Configuration */}
-        <div className="w-1/2 border-r border-gray-200 overflow-y-auto" style={{ height: 'calc(100vh - 73px)' }}>
-          <div className="p-8">
-            <div className="mb-8">
-              <Link href="/" className="flex items-center gap-2 text-[15px] font-medium text-gray-900 hover:text-gray-600 transition-colors">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Base Pay
-              </Link>
-              <p className="text-sm text-gray-500 mt-1 ml-6">Payment configuration</p>
-            </div>
+        <div
+          className="w-1/2 border-r border-gray-200 relative"
+          style={{ height: 'calc(100vh - 73px)' }}
+        >
+          {/* Sticky Header */}
+          <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-8 py-6">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-[15px] font-medium text-gray-900 hover:text-gray-600 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Base Pay
+            </Link>
+            <p className="text-sm text-gray-500 mt-1 ml-6">Payment configuration</p>
+          </div>
 
-            <div className="space-y-8">
+          {/* Scrollable Content */}
+          <div className="overflow-y-auto" style={{ height: 'calc(100vh - 73px - 73px)' }}>
+            <div className="p-8 space-y-8">
               <ProductDetailsSection
                 productName={basePayConfig.product.name}
                 subtitle={basePayConfig.product.subtitle}
@@ -149,18 +196,16 @@ function ConfigurePageContent() {
                 onImageUrlChange={(value) => updateProduct({ imageUrl: value })}
                 onPriceChange={(value) => updateProduct({ price: value })}
               />
-              
+
               <div className="border-t border-gray-200 pt-8">
                 <PaymentSettingsSection
                   recipientAddress={basePayConfig.payment.recipientAddress}
                   testnet={basePayConfig.payment.testnet}
-                  enableTelemetry={basePayConfig.payment.enableTelemetry}
                   onRecipientAddressChange={(value) => updatePayment({ recipientAddress: value })}
                   onTestnetChange={(value) => updatePayment({ testnet: value })}
-                  onEnableTelemetryChange={(value) => updatePayment({ enableTelemetry: value })}
                 />
               </div>
-              
+
               <div className="border-t border-gray-200 pt-8">
                 <PayerInfoSection
                   requests={basePayConfig.payerInfo.requests}
@@ -169,7 +214,7 @@ function ConfigurePageContent() {
                   onCallbackUrlChange={(value) => updatePayerInfo({ callbackUrl: value })}
                 />
               </div>
-              
+
               <div className="border-t border-gray-200 pt-8">
                 <ButtonStyleSection
                   colorScheme={basePayConfig.buttonStyle.colorScheme}
@@ -189,8 +234,8 @@ function ConfigurePageContent() {
                 <button
                   onClick={() => setActiveTab('preview')}
                   className={`px-5 py-2 rounded-lg text-[15px] font-medium transition-all duration-150 ${
-                    activeTab === 'preview' 
-                      ? 'bg-black text-white' 
+                    activeTab === 'preview'
+                      ? 'bg-black text-white'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
@@ -199,9 +244,7 @@ function ConfigurePageContent() {
                 <button
                   onClick={() => setActiveTab('code')}
                   className={`px-5 py-2 rounded-lg text-[15px] font-medium transition-all duration-150 ${
-                    activeTab === 'code' 
-                      ? 'bg-black text-white' 
-                      : 'text-gray-600 hover:bg-gray-100'
+                    activeTab === 'code' ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
                   Code
@@ -215,7 +258,7 @@ function ConfigurePageContent() {
                   viewMode={basePayConfig.viewMode || 'mobile'}
                   onThemeChange={updateTheme}
                   onViewModeChange={updateViewMode}
-                  onRefresh={() => setRefreshKey(prev => prev + 1)}
+                  onRefresh={() => setRefreshKey((prev) => prev + 1)}
                 />
               )}
             </div>
@@ -256,10 +299,12 @@ function ConfigurePageContent() {
 
 export default function ConfigurePage() {
   return (
-    <ConfigProvider initialConfig={defaultBasePayConfig}>
-      <ConfigurePageContent />
-    </ConfigProvider>
+    <Suspense
+      fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
+    >
+      <ConfigProvider initialConfig={defaultBasePayConfig}>
+        <ConfigurePageContent />
+      </ConfigProvider>
+    </Suspense>
   );
 }
-
-

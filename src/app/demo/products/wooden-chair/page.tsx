@@ -15,19 +15,18 @@ export default function WoodenChairProductPage() {
 
   const handleCheckout = () => {
     // Navigate to Base Pay info page with config
-    router.push(`/demo/base-pay/info?config=${encodeURIComponent(JSON.stringify(config))}&viewMode=${viewMode}`);
+    router.push(
+      `/demo/base-pay/info?config=${encodeURIComponent(JSON.stringify(config))}&viewMode=${viewMode}`
+    );
   };
 
   return (
     <MobileContentContainer viewMode={viewMode as 'mobile' | 'desktop'} variant="default">
       {/* Product Image */}
-      <div className={`relative w-full aspect-square bg-gray-50 rounded-2xl overflow-hidden ${spacing.section.lg}`}>
-        <Image
-          src={woodenChair.image}
-          alt={woodenChair.name}
-          fill
-          className="object-contain p-8"
-        />
+      <div
+        className={`relative w-full aspect-square bg-gray-50 rounded-2xl overflow-hidden ${spacing.section.lg}`}
+      >
+        <Image src={woodenChair.image} alt={woodenChair.name} fill className="object-contain p-8" />
       </div>
 
       {/* Product Info */}
@@ -50,10 +49,7 @@ export default function WoodenChairProductPage() {
 
       {/* Checkout Button */}
       <div className={spacing.section.lg}>
-        <Button 
-          onClick={handleCheckout}
-          className="w-full"
-        >
+        <Button onClick={handleCheckout} className="w-full">
           Checkout with Base Pay
         </Button>
       </div>

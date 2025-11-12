@@ -5,6 +5,7 @@ A demo playground for building and previewing Base blockchain product integratio
 ## Overview
 
 This is a **demo builder/preview tool** that allows you to:
+
 - Configure and customize Base product demos (Sign in with Base, Base Pay, Transact)
 - Preview demos in a mobile interface
 - Generate code snippets for integration
@@ -22,11 +23,13 @@ This is a **demo builder/preview tool** that allows you to:
 ## Getting Started
 
 1. Install dependencies:
+
 ```bash
 yarn install
 ```
 
 2. Run the development server:
+
 ```bash
 yarn dev
 ```
@@ -74,12 +77,14 @@ src/
 ## Features
 
 ### Desktop Builder Interface
+
 - Product selection sidebar
 - Configuration forms with live preview
 - Mobile preview frame
 - Code snippet generation
 
 ### Mobile Demo Experience
+
 - Products list
 - Product detail pages (e-commerce example)
 - Authentication flow with modal
@@ -88,6 +93,7 @@ src/
 - Mobile browser chrome (Safari-style)
 
 ### Base UI Integration
+
 - `SignInWithBaseButton` - Authentic Base sign-in button
 - `BasePayButton` - Base Pay checkout button
 - Both components are visual-only and call your onClick handlers
@@ -95,12 +101,14 @@ src/
 ## Configuration Options
 
 ### Sign in with Base
+
 - **Form Appearance**: Contact info, shipping info toggles
 - **App Branding**: Logo URL, app name
 - **Capabilities**: Sign in with ethereum, request app account
 - **Requests**: Spend permissions with allowance/frequency settings
 
 ### Base Pay
+
 - Product customization
 - Payment display settings
 

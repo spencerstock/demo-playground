@@ -11,13 +11,7 @@ export default function HomePage() {
       {/* Background Effect */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/4 -translate-y-1/2 w-[800px] h-[800px]">
-          <Image 
-            src="/bg-effect.png" 
-            alt=""
-            fill
-            className="object-contain opacity-50"
-            priority
-          />
+          <Image src="/bg-effect.png" alt="" fill className="object-contain opacity-50" priority />
         </div>
       </div>
 
@@ -25,19 +19,28 @@ export default function HomePage() {
       <header className="bg-white border-b border-gray-200 relative z-10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Logo />
-          <div className="flex items-center gap-3">
-            <Button variant="ghost">
-              Share preview
+          <a
+            href="https://docs.base.org/base-account/overview/what-is-base-account"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button>
+              Start building
+              <svg
+                className="ml-2 w-4 h-4 inline"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
             </Button>
-            <Link href="/products/sign-in/configure">
-              <Button>
-                Start building
-                <svg className="ml-2 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Button>
-            </Link>
-          </div>
+          </a>
         </div>
       </header>
 
@@ -47,7 +50,7 @@ export default function HomePage() {
           <aside className="w-80 flex-shrink-0">
             <h2 className="text-base font-semibold text-gray-900 mb-4">Products</h2>
             <div className="flex flex-col gap-4">
-              {baseProducts.map(product => (
+              {baseProducts.map((product) => (
                 <Link key={product.id} href={`/products/${product.id}/configure`} className="block">
                   <ProductCard product={product} />
                 </Link>
@@ -59,9 +62,7 @@ export default function HomePage() {
           <main className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <div className="w-16 h-16 mx-auto mb-6 bg-gray-300 rounded"></div>
-              <p className="text-[15px] text-gray-600">
-                Select a product to start your demo
-              </p>
+              <p className="text-[15px] text-gray-600">Select a product to start your demo</p>
             </div>
           </main>
         </div>

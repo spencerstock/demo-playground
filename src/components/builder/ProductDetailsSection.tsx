@@ -69,7 +69,7 @@ export function ProductDetailsSection({
   return (
     <div className="space-y-6">
       <h3 className="text-[15px] font-semibold text-gray-900">Product details</h3>
-      
+
       <div className="space-y-5">
         <Input
           label="Product name"
@@ -86,30 +86,25 @@ export function ProductDetailsSection({
         />
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Product image
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Product image</label>
           <div
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
             className={`relative border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-              dragOver
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-300 hover:border-gray-400'
+              dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
             }`}
           >
             {imageUrl ? (
               <div className="space-y-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={imageUrl}
                   alt="Product preview"
                   className="max-h-40 mx-auto rounded object-contain"
                 />
-                <p className="text-sm text-gray-500">
-                  Click or drag to replace image
-                </p>
+                <p className="text-sm text-gray-500">Click or drag to replace image</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -127,7 +122,8 @@ export function ProductDetailsSection({
                   />
                 </svg>
                 <p className="text-sm text-gray-600">
-                  <span className="font-medium text-blue-600">Click to upload</span> or drag and drop
+                  <span className="font-medium text-blue-600">Click to upload</span> or drag and
+                  drop
                 </p>
                 <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
               </div>
@@ -159,5 +155,3 @@ export function ProductDetailsSection({
     </div>
   );
 }
-
-

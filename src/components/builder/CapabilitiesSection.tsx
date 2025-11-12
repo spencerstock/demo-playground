@@ -5,10 +5,15 @@ import { useConfig } from '@/lib/contexts/ConfigContext';
 export function CapabilitiesSection() {
   const { config, updateCapabilities } = useConfig();
 
+  // This section is only for ProductConfig, not BasePayConfig
+  if (!('capabilities' in config)) {
+    return null;
+  }
+
   return (
     <div className="space-y-6">
       <h3 className="text-[15px] font-semibold text-gray-900">Capabilities</h3>
-      
+
       <div className="space-y-5">
         <div className="flex items-center justify-between">
           <div>
@@ -26,4 +31,3 @@ export function CapabilitiesSection() {
     </div>
   );
 }
-

@@ -5,6 +5,7 @@ This document explains the robust spacing system for mobile view components.
 ## Overview
 
 The new spacing system provides:
+
 - ✅ **Consistent spacing** across mobile and desktop views
 - ✅ **Easy configuration** through a centralized component
 - ✅ **Semantic spacing scales** for predictable layouts
@@ -54,6 +55,7 @@ interface MobileContentContainerProps {
 #### Automatic Spacing
 
 The container automatically applies:
+
 - **Mobile**: `px-6 py-6` for content padding
 - **Desktop**: `px-8 py-8` for content padding
 - **Desktop**: Fixed width (`375px`) and height (varies by variant)
@@ -72,13 +74,14 @@ import { spacing } from '@/components/demo/MobileContentContainer';
 Vertical spacing between major sections:
 
 ```typescript
-spacing.section.sm  // 'mb-4'  - 16px
-spacing.section.md  // 'mb-6'  - 24px
-spacing.section.lg  // 'mb-8'  - 32px
-spacing.section.xl  // 'mb-12' - 48px
+spacing.section.sm; // 'mb-4'  - 16px
+spacing.section.md; // 'mb-6'  - 24px
+spacing.section.lg; // 'mb-8'  - 32px
+spacing.section.xl; // 'mb-12' - 48px
 ```
 
 **Example:**
+
 ```tsx
 <div className={spacing.section.lg}>
   <h1>Major Section</h1>
@@ -90,13 +93,14 @@ spacing.section.xl  // 'mb-12' - 48px
 Spacing between elements within a section:
 
 ```typescript
-spacing.element.xs  // 'mb-1' - 4px
-spacing.element.sm  // 'mb-2' - 8px
-spacing.element.md  // 'mb-3' - 12px
-spacing.element.lg  // 'mb-4' - 16px
+spacing.element.xs; // 'mb-1' - 4px
+spacing.element.sm; // 'mb-2' - 8px
+spacing.element.md; // 'mb-3' - 12px
+spacing.element.lg; // 'mb-4' - 16px
 ```
 
 **Example:**
+
 ```tsx
 <h1 className={spacing.element.md}>Title</h1>
 <p>Description text</p>
@@ -107,14 +111,15 @@ spacing.element.lg  // 'mb-4' - 16px
 For flex/grid containers:
 
 ```typescript
-spacing.gap.xs   // 'gap-1' - 4px
-spacing.gap.sm   // 'gap-2' - 8px
-spacing.gap.md   // 'gap-3' - 12px
-spacing.gap.lg   // 'gap-4' - 16px
-spacing.gap.xl   // 'gap-6' - 24px
+spacing.gap.xs; // 'gap-1' - 4px
+spacing.gap.sm; // 'gap-2' - 8px
+spacing.gap.md; // 'gap-3' - 12px
+spacing.gap.lg; // 'gap-4' - 16px
+spacing.gap.xl; // 'gap-6' - 24px
 ```
 
 **Example:**
+
 ```tsx
 <div className={`flex ${spacing.gap.md}`}>
   <Button>Cancel</Button>
@@ -132,12 +137,12 @@ spacing.gap.xl   // 'gap-6' - 24px
     <div className={spacing.section.lg}>
       <Logo />
     </div>
-    
+
     <div className={`text-center ${spacing.section.lg}`}>
       <h1 className={spacing.element.md}>Sign in with Base</h1>
       <p>Description text</p>
     </div>
-    
+
     <SignInButton />
   </div>
 </MobileContentContainer>
@@ -160,8 +165,8 @@ const footer = (
   </div>
 );
 
-<MobileContentContainer 
-  viewMode={viewMode} 
+<MobileContentContainer
+  viewMode={viewMode}
   variant="scrollable"
   showHeader={true}
   header={header}
@@ -169,11 +174,9 @@ const footer = (
 >
   <h1 className={spacing.element.sm}>Title</h1>
   <p className={spacing.section.lg}>Description</p>
-  
-  <div className={spacing.section.lg}>
-    {/* Long content that might need scrolling */}
-  </div>
-</MobileContentContainer>
+
+  <div className={spacing.section.lg}>{/* Long content that might need scrolling */}</div>
+</MobileContentContainer>;
 ```
 
 ### Example 3: Default Page
@@ -181,12 +184,12 @@ const footer = (
 ```tsx
 <MobileContentContainer viewMode={viewMode} variant="default">
   <h1 className={spacing.section.md}>Page Title</h1>
-  
+
   <div className={spacing.section.lg}>
     <h2 className={spacing.element.sm}>Section 1</h2>
     <p>Content here</p>
   </div>
-  
+
   <div className={spacing.section.lg}>
     <h2 className={spacing.element.sm}>Section 2</h2>
     <p>More content</p>
@@ -199,8 +202,12 @@ const footer = (
 ### Before (Old Approach)
 
 ```tsx
-<div className={`min-h-screen flex flex-col ${isDesktop ? 'bg-transparent items-center justify-center' : 'bg-white'}`}>
-  <div className={`${isDesktop ? 'w-[375px] h-[600px] bg-white rounded-3xl shadow-xl p-8' : 'px-6 py-6'}`}>
+<div
+  className={`min-h-screen flex flex-col ${isDesktop ? 'bg-transparent items-center justify-center' : 'bg-white'}`}
+>
+  <div
+    className={`${isDesktop ? 'w-[375px] h-[600px] bg-white rounded-3xl shadow-xl p-8' : 'px-6 py-6'}`}
+  >
     <h1 className="mb-6">Title</h1>
     <p className="mb-8">Content</p>
   </div>
@@ -236,10 +243,10 @@ const footer = (
 ## Files Updated
 
 The following files have been migrated to the new system:
+
 - ✅ `src/app/demo/page.tsx`
 - ✅ `src/app/demo/products/sign-in/page.tsx`
 - ✅ `src/app/demo/products/wooden-chair/page.tsx`
 - ✅ `src/app/demo/auth/confirm/page.tsx`
 - ✅ `src/app/demo/auth/permissions/page.tsx`
 - ✅ `src/app/demo/auth/page.tsx` (partial - modal only)
-

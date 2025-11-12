@@ -12,14 +12,14 @@ interface MobileContentContainerProps {
 
 /**
  * MobileContentContainer
- * 
+ *
  * A robust container component that handles spacing and layout
  * consistently across mobile and desktop view modes.
- * 
+ *
  * Spacing System:
  * - Mobile: Uses native padding (px-6, py-6) for content
  * - Desktop: Uses container padding (px-8, py-8) with fixed dimensions
- * 
+ *
  * Variants:
  * - default: Standard layout with optional header/footer
  * - scrollable: Content area scrolls, footer stays fixed
@@ -47,8 +47,8 @@ export function MobileContentContainer({
     ? variant === 'centered'
       ? 'h-[550px]'
       : variant === 'fullscreen'
-      ? 'h-[812px]'
-      : 'h-[650px]'
+        ? 'h-[812px]'
+        : 'h-[650px]'
     : '';
 
   // Background varies by variant
@@ -69,17 +69,10 @@ export function MobileContentContainer({
   // Inner container - the actual content box
   const innerContainerClass = `${desktopContainerClass} ${desktopHeightClass} ${
     !isDesktop && variant === 'centered' ? 'flex-1 flex flex-col items-center justify-center' : ''
-  } ${
-    !isDesktop && variant === 'scrollable' ? 'flex flex-col h-full' : ''
-  } ${className}`;
+  } ${!isDesktop && variant === 'scrollable' ? 'flex flex-col h-full' : ''} ${className}`;
 
   // Content padding - the main spacing control
-  const contentPaddingClass =
-    variant === 'fullscreen'
-      ? ''
-      : isDesktop
-      ? 'px-8 py-8'
-      : 'px-6 py-6';
+  const contentPaddingClass = variant === 'fullscreen' ? '' : isDesktop ? 'px-8 py-8' : 'px-6 py-6';
 
   if (variant === 'scrollable') {
     return (
@@ -87,21 +80,15 @@ export function MobileContentContainer({
         <div className={innerContainerClass}>
           {/* Optional Header */}
           {showHeader && (
-            <div className={isDesktop ? 'px-8 pt-8 pb-4' : 'px-6 pt-6 pb-4'}>
-              {header}
-            </div>
+            <div className={isDesktop ? 'px-8 pt-8 pb-4' : 'px-6 pt-6 pb-4'}>{header}</div>
           )}
 
           {/* Scrollable Content */}
-          <div className={`flex-1 overflow-y-auto ${isDesktop ? 'px-8' : 'px-6'}`}>
-            {children}
-          </div>
+          <div className={`flex-1 overflow-y-auto ${isDesktop ? 'px-8' : 'px-6'}`}>{children}</div>
 
           {/* Fixed Footer - Add bottom padding for mobile chrome */}
           {footer && (
-            <div className={isDesktop ? 'px-8 pb-8 pt-4' : 'px-6 pb-24 pt-4'}>
-              {footer}
-            </div>
+            <div className={isDesktop ? 'px-8 pb-8 pt-4' : 'px-6 pb-24 pt-4'}>{footer}</div>
           )}
         </div>
       </div>
@@ -112,9 +99,7 @@ export function MobileContentContainer({
     return (
       <div className={outerContainerClass}>
         <div className={innerContainerClass}>
-          <div className={contentPaddingClass}>
-            {children}
-          </div>
+          <div className={contentPaddingClass}>{children}</div>
         </div>
       </div>
     );
@@ -123,9 +108,7 @@ export function MobileContentContainer({
   if (variant === 'fullscreen') {
     return (
       <div className={outerContainerClass}>
-        <div className={innerContainerClass}>
-          {children}
-        </div>
+        <div className={innerContainerClass}>{children}</div>
       </div>
     );
   }
@@ -135,20 +118,12 @@ export function MobileContentContainer({
     <div className={outerContainerClass}>
       <div className={innerContainerClass}>
         {showHeader && header && (
-          <div className={isDesktop ? 'px-8 pt-8 pb-4' : 'px-6 pt-6 pb-4'}>
-            {header}
-          </div>
+          <div className={isDesktop ? 'px-8 pt-8 pb-4' : 'px-6 pt-6 pb-4'}>{header}</div>
         )}
-        
-        <div className={contentPaddingClass}>
-          {children}
-        </div>
 
-        {footer && (
-          <div className={isDesktop ? 'px-8 pb-8 pt-4' : 'px-6 pb-6 pt-4'}>
-            {footer}
-          </div>
-        )}
+        <div className={contentPaddingClass}>{children}</div>
+
+        {footer && <div className={isDesktop ? 'px-8 pb-8 pt-4' : 'px-6 pb-6 pt-4'}>{footer}</div>}
       </div>
     </div>
   );
@@ -181,4 +156,3 @@ export const spacing = {
     xl: 'gap-6',
   },
 } as const;
-
