@@ -5,17 +5,15 @@ import Image from 'next/image';
 import { useState, Suspense } from 'react';
 import { SignInWithBaseButton } from '@base-org/account-ui/react';
 import { useConfig } from '@/lib/contexts/ConfigContext';
-import { useSDK } from '@/lib/contexts/SDKContext';
 import { spacing } from '@/components/demo/MobileContentContainer';
 
 function AuthPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { config } = useConfig();
-  
+
   const [logoError, setLogoError] = useState(false);
   const viewMode = searchParams.get('viewMode') || 'mobile';
-
 
   const handleSignIn = () => {
     // Navigate to confirmation page with config and viewMode
@@ -23,10 +21,6 @@ function AuthPageContent() {
       `/demo/auth/confirm?config=${encodeURIComponent(JSON.stringify(config))}&viewMode=${viewMode}`
     );
   };
-  
-  
-  
-
 
   return (
     <div
