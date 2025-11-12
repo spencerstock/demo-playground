@@ -44,7 +44,7 @@ export function ConfigProvider({
           const parsedConfig = JSON.parse(decodeURIComponent(configParam));
           // eslint-disable-next-line react-hooks/set-state-in-effect
           setConfig(parsedConfig);
-          
+
           // Clean up URL after loading config
           if (typeof window !== 'undefined') {
             const url = new URL(window.location.href);
