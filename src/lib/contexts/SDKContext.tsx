@@ -6,7 +6,6 @@ import { createBaseAccountSDK } from '@base-org/account';
 interface SDKContextType {
   sdk: ReturnType<typeof createBaseAccountSDK> | null;
   provider: ReturnType<ReturnType<typeof createBaseAccountSDK>['getProvider']> | null;
-  
 }
 
 const SDKContext = createContext<SDKContextType | undefined>(undefined);
@@ -29,7 +28,6 @@ export function SDKProvider({
   const [sdkState, setSDKState] = useState<SDKContextType>({
     sdk: null,
     provider: null,
-    
   });
   const initializingRef = useRef(false);
 
@@ -49,7 +47,7 @@ export function SDKProvider({
           mode,
         },
       });
-      
+
       // Single state update to avoid cascading renders
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSDKState({
@@ -59,11 +57,7 @@ export function SDKProvider({
     }
   }, [appChainIds, appName, mode, walletUrl]);
 
-  return (
-    <SDKContext.Provider value={sdkState}>
-      {children}
-    </SDKContext.Provider>
-  );
+  return <SDKContext.Provider value={sdkState}>{children}</SDKContext.Provider>;
 }
 
 export function useSDK() {
