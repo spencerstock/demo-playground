@@ -19,27 +19,28 @@ export default function HomePage() {
       <header className="bg-white border-b border-gray-200 relative z-10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Logo />
-          <div className="flex items-center gap-3">
-            <Button variant="ghost">Share preview</Button>
-            <Link href="/products/sign-in/configure">
-              <Button>
-                Start building
-                <svg
-                  className="ml-2 w-4 h-4 inline"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Button>
-            </Link>
-          </div>
+          <a
+            href="https://docs.base.org/base-account/overview/what-is-base-account"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button>
+              Start building
+              <svg
+                className="ml-2 w-4 h-4 inline"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Button>
+          </a>
         </div>
       </header>
 

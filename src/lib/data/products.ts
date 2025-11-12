@@ -77,7 +77,6 @@ export const defaultBasePayConfig = {
   payment: {
     recipientAddress: '0x0000000000000000000000000000000000000000',
     testnet: true,
-    enableTelemetry: true,
   },
   payerInfo: {
     requests: {
