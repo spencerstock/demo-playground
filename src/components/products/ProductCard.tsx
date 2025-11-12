@@ -9,7 +9,7 @@ interface ProductCardProps {
 export function ProductCard({ product, onClick }: ProductCardProps) {
   return (
     <div
-      className="bg-gray-100 rounded-xl p-4 hover:bg-gray-200 cursor-pointer transition-all duration-150"
+      className="group bg-gray-100 rounded-xl p-4 hover:bg-gray-200 cursor-pointer transition-all duration-150"
       onClick={onClick}
     >
       <div className="flex items-start gap-3">
