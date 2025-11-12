@@ -7,8 +7,46 @@ import { Button } from '@/components/ui/Button';
 import { MobileContentContainer, spacing } from '@/components/demo/MobileContentContainer';
 import { useConfig } from '@/lib/contexts/ConfigContext';
 import { useSDK } from '@/lib/contexts/SDKContext';
+import { encodeFunctionData } from 'viem';
+import { parseUnits } from 'viem';
+import { numberToHex } from 'viem';
+import { base, getCryptoKeyAccount } from '@base-org/account';
 
 type MintStage = 'idle' | 'minting' | 'success';
+
+// ERC-20 ABI for approve
+const erc20Abi = [
+  {
+    inputs: [
+      { name: 'spender', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', type: 'bool' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+] as const;
+
+// ERC721 ABI for the mint function
+const erc721Abi = [
+  {
+    inputs: [
+      { name: 'to', type: 'address' },
+      { name: 'tokenId', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+] as const;
+
+// USDC contract address on Base Sepolia
+const USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
+
+// NFT contract address on Base Sepolia
+const NFT_CONTRACT_ADDRESS = '0x82039e7C37D7aAc98D0F4d0A762F4E0d8c8DC273';
 
 export default function TransactProductPage() {
   const searchParams = useSearchParams();
@@ -37,26 +75,44 @@ export default function TransactProductPage() {
     setStage('minting');
 
     try {
-      const connection = await provider.request({
-        method: 'wallet_connect',
-        params: [{ version: '1', capabilities: {} }],
+      const cryptoAccount = await getCryptoKeyAccount();
+      const fromAddress = cryptoAccount?.account?.address;
+
+      // Encode the first approve call - approve USDC to NFT contract
+      const call1Data = encodeFunctionData({
+        abi: erc20Abi,
+        functionName: 'approve',
+        args: [
+          NFT_CONTRACT_ADDRESS,
+          parseUnits('1000', 6), // USDC has 6 decimals
+        ],
       });
 
-      const [{ address }] = connection;
-
-      if (!address) {
-        throw new Error('Wallet connection failed');
-      }
+      // Encode the second call - mint NFT to the user's address
+      const call2Data = encodeFunctionData({
+        abi: erc721Abi,
+        functionName: 'mint',
+        args: [fromAddress as `0x${string}`, BigInt('1')],
+      });
 
       await provider.request({
-        method: 'wallet_sendTransaction',
+        method: 'wallet_sendCalls',
         params: [
           {
-            chainId: '0x14a34', // Base Sepolia
-            to: '0x0000000000000000000000000000000000000000', // Demo NFT contract
-            from: address,
-            value: '0x6f05b59d3b2000', // 0.0005 ETH
-            data: '0x', // Encoded mint data
+            version: '2.0.0',
+            from: fromAddress,
+            chainId: numberToHex(base.constants.CHAIN_IDS.baseSepolia),
+            atomicRequired: true,
+            calls: [
+              {
+                to: USDC_ADDRESS,
+                data: call1Data,
+              },
+              {
+                to: NFT_CONTRACT_ADDRESS,
+                data: call2Data,
+              },
+            ],
           },
         ],
       });
