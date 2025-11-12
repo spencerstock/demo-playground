@@ -23,7 +23,7 @@ export default function AuthPage() {
   const handleSignIn = async () => {
     try {
       // Request basic connection
-      const response = await provider.request({
+      const response = await provider?.request({
         method: 'wallet_connect',
         params: [{ version: '1' }],
       });
