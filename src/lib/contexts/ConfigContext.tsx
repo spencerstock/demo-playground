@@ -44,6 +44,13 @@ export function ConfigProvider({
           const parsedConfig = JSON.parse(decodeURIComponent(configParam));
           // eslint-disable-next-line react-hooks/set-state-in-effect
           setConfig(parsedConfig);
+          
+          // Clean up URL after loading config
+          if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('config');
+            window.history.replaceState({}, '', url.toString());
+          }
         } catch (error) {
           console.error('Failed to parse config from URL:', error);
         }

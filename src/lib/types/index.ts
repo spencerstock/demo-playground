@@ -64,7 +64,6 @@ export interface BasePayConfig {
   payment: {
     recipientAddress: string; // default: '0x0000000000000000000000000000000000000000'
     testnet: boolean;
-    enableTelemetry: boolean;
   };
   // Payer information collection (optional)
   // Maps to SDK's PayerInfo: { requests: InfoRequest[], callbackURL?: string }

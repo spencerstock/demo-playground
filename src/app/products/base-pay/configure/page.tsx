@@ -17,6 +17,7 @@ import { BasePayConfig } from '@/lib/types';
 function ConfigurePageContent() {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [refreshKey, setRefreshKey] = useState(0);
+  const [shareButtonText, setShareButtonText] = useState('Share preview');
   const {
     config,
     updateProduct,
@@ -30,6 +31,18 @@ function ConfigurePageContent() {
 
   // Type guard to ensure we have a BasePayConfig
   const basePayConfig = config as BasePayConfig;
+
+  const handleSharePreview = async () => {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set('config', JSON.stringify(basePayConfig));
+      await navigator.clipboard.writeText(url.toString());
+      setShareButtonText('Copied!');
+      setTimeout(() => setShareButtonText('Share preview'), 2500);
+    } catch (error) {
+      console.error('Failed to copy to clipboard:', error);
+    }
+  };
 
   const generateCode = () => {
     const lines: string[] = [];
@@ -51,10 +64,6 @@ function ConfigurePageContent() {
 
     if (basePayConfig.payment.testnet) {
       lines.push('        testnet: true,');
-    }
-
-    if (!basePayConfig.payment.enableTelemetry) {
-      lines.push('        telemetry: false,');
     }
 
     // Add payerInfo if any requests are enabled
@@ -120,23 +129,31 @@ function ConfigurePageContent() {
             <Logo />
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="secondary">Share preview</Button>
-            <Button>
-              Start building
-              <svg
-                className="ml-2 w-4 h-4 inline"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+            <Button variant="secondary" onClick={handleSharePreview}>
+              {shareButtonText}
             </Button>
+            <a
+              href="https://docs.base.org/base-account/guides/accept-payments"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button>
+                Start building
+                <svg
+                  className="ml-2 w-4 h-4 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Button>
+            </a>
           </div>
         </div>
       </header>
@@ -144,29 +161,31 @@ function ConfigurePageContent() {
       <div className="flex">
         {/* Left Panel - Configuration */}
         <div
-          className="w-1/2 border-r border-gray-200 overflow-y-auto"
+          className="w-1/2 border-r border-gray-200 relative"
           style={{ height: 'calc(100vh - 73px)' }}
         >
-          <div className="p-8">
-            <div className="mb-8">
-              <Link
-                href="/"
-                className="flex items-center gap-2 text-[15px] font-medium text-gray-900 hover:text-gray-600 transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                Base Pay
-              </Link>
-              <p className="text-sm text-gray-500 mt-1 ml-6">Payment configuration</p>
-            </div>
+          {/* Sticky Header */}
+          <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-8 py-6">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-[15px] font-medium text-gray-900 hover:text-gray-600 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Base Pay
+            </Link>
+            <p className="text-sm text-gray-500 mt-1 ml-6">Payment configuration</p>
+          </div>
 
-            <div className="space-y-8">
+          {/* Scrollable Content */}
+          <div className="overflow-y-auto" style={{ height: 'calc(100vh - 73px - 73px)' }}>
+            <div className="p-8 space-y-8">
               <ProductDetailsSection
                 productName={basePayConfig.product.name}
                 subtitle={basePayConfig.product.subtitle}
@@ -182,10 +201,8 @@ function ConfigurePageContent() {
                 <PaymentSettingsSection
                   recipientAddress={basePayConfig.payment.recipientAddress}
                   testnet={basePayConfig.payment.testnet}
-                  enableTelemetry={basePayConfig.payment.enableTelemetry}
                   onRecipientAddressChange={(value) => updatePayment({ recipientAddress: value })}
                   onTestnetChange={(value) => updatePayment({ testnet: value })}
-                  onEnableTelemetryChange={(value) => updatePayment({ enableTelemetry: value })}
                 />
               </div>
 
