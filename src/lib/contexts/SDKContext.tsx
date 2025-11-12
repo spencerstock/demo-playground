@@ -1,11 +1,11 @@
 'use client';
 
-import { createContext, useContext, ReactNode, useMemo } from 'react';
+import { createContext, useContext, ReactNode, useState, useEffect, useRef } from 'react';
 import { createBaseAccountSDK } from '@base-org/account';
 
-interface SDKContextValue {
-  sdk: ReturnType<typeof createBaseAccountSDK>;
-  provider: ReturnType<ReturnType<typeof createBaseAccountSDK>['getProvider']>;
+interface SDKContextType {
+  sdk: ReturnType<typeof createBaseAccountSDK> | null;
+  provider: ReturnType<ReturnType<typeof createBaseAccountSDK>['getProvider']> | null;
 }
 
 const SDKContext = createContext<SDKContextValue | undefined>(undefined);
@@ -25,20 +25,39 @@ export function SDKProvider({
   walletUrl = 'https://keys.coinbase.com/connect?externalCorrelationId=pl_01k9wzx0h3fcts0g1ya3bfkswa',
   mode = 'embedded',
 }: SDKProviderProps) {
-  const sdk = useMemo(() => {
-    return createBaseAccountSDK({
-      appName,
-      appChainIds,
-      preference: {
-        walletUrl,
-        mode,
-      },
-    });
-  }, [appName, appChainIds, walletUrl, mode]);
+  const [sdkState, setSDKState] = useState<SDKContextType>({
+    sdk: null,
+    provider: null,
+  });
+  const initializingRef = useRef(false);
 
-  const provider = useMemo(() => sdk.getProvider(), [sdk]);
+  // Create SDK instance only on the client side
+  useEffect(() => {
+    // Prevent double initialization in development mode (React StrictMode)
+    if (initializingRef.current) return;
+    initializingRef.current = true;
 
-  return <SDKContext.Provider value={{ sdk, provider }}>{children}</SDKContext.Provider>;
+    // Only initialize if not already initialized
+    if (typeof window !== 'undefined') {
+      const sdkInstance = createBaseAccountSDK({
+        appName,
+        appChainIds,
+        preference: {
+          walletUrl,
+          mode,
+        },
+      });
+
+      // Single state update to avoid cascading renders
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSDKState({
+        sdk: sdkInstance,
+        provider: sdkInstance.getProvider(),
+      });
+    }
+  }, [appChainIds, appName, mode, walletUrl]);
+
+  return <SDKContext.Provider value={sdkState}>{children}</SDKContext.Provider>;
 }
 
 export function useSDK() {
