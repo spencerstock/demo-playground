@@ -18,12 +18,12 @@ export interface SDKProviderProps {
   mode?: 'popup' | 'embedded';
 }
 
-export function SDKProvider({
-  children,
+export function SDKProvider({ 
+  children, 
   appName = 'Base Demo Playground',
   appChainIds = [8453], // Base mainnet
-  walletUrl = 'http://localhost:3005/connect',
-  mode = 'embedded',
+  walletUrl = 'https://keys.coinbase.com/connect?externalCorrelationId=pl_01k9wzx0h3fcts0g1ya3bfkswa',
+  mode = 'embedded'
 }: SDKProviderProps) {
   // Create SDK instance once using useMemo
   const sdk = useMemo(() => {
@@ -40,7 +40,11 @@ export function SDKProvider({
   // Get provider from SDK
   const provider = useMemo(() => sdk.getProvider(), [sdk]);
 
-  return <SDKContext.Provider value={{ sdk, provider }}>{children}</SDKContext.Provider>;
+  return (
+    <SDKContext.Provider value={{ sdk, provider }}>
+      {children}
+    </SDKContext.Provider>
+  );
 }
 
 export function useSDK() {
@@ -50,3 +54,4 @@ export function useSDK() {
   }
   return context;
 }
+
