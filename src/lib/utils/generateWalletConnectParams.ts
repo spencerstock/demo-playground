@@ -4,7 +4,7 @@ interface WalletConnectParams {
   version: string;
   capabilities?: {
     signInWithEthereum?: {
-      chainId: number;
+      chainId: string;
       nonce: string;
     };
     spendPermissions?: {
