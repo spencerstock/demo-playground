@@ -9,7 +9,7 @@ interface BasePayParams {
   amount: string;
   to: string;
   testnet?: boolean;
-  walletUrl?: string;   
+  walletUrl?: string;
   payerInfo?: {
     requests: PayerInfoRequest[];
     callbackURL?: string;
@@ -53,4 +53,3 @@ export function generateBasePayParams(config: BasePayConfig): BasePayParams {
 
   return params;
 }
-

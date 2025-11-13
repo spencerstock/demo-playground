@@ -30,7 +30,9 @@ interface WalletConnectParams {
 export function generateWalletConnectParams(config: ProductConfig): WalletConnectParams[] {
   // Check if this is a valid ProductConfig (not BasePayConfig)
   if (!('formAppearance' in config) || !('requests' in config) || !('capabilities' in config)) {
-    throw new Error('Invalid configuration: This function only works with Sign in with Base product');
+    throw new Error(
+      'Invalid configuration: This function only works with Sign in with Base product'
+    );
   }
 
   const capabilities: WalletConnectParams['capabilities'] = {};
@@ -97,7 +99,9 @@ export function generateWalletConnectParams(config: ProductConfig): WalletConnec
 export function generateSDKConfig(config: ProductConfig) {
   // Check if this is a valid ProductConfig (not BasePayConfig)
   if (!('formAppearance' in config) || !('requests' in config) || !('capabilities' in config)) {
-    throw new Error('Invalid configuration: This function only works with Sign in with Base product');
+    throw new Error(
+      'Invalid configuration: This function only works with Sign in with Base product'
+    );
   }
 
   const sdkConfig: any = {
@@ -124,4 +128,3 @@ export function generateSDKConfig(config: ProductConfig) {
 
   return sdkConfig;
 }
-
