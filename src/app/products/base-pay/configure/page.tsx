@@ -14,12 +14,14 @@ import { ButtonStyleSection } from '@/components/builder/ButtonStyleSection';
 import { ConfigProvider, useConfig } from '@/lib/contexts/ConfigContext';
 import { defaultBasePayConfig } from '@/lib/data/products';
 import { BasePayConfig } from '@/lib/types';
+import { USDCFaucetModal, USDCFaucetButton } from '@/components/faucet';
 
 function ConfigurePageContent() {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [refreshKey, setRefreshKey] = useState(0);
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
+  const [showFaucetModal, setShowFaucetModal] = useState(false);
   const {
     config,
     updateProduct,
@@ -183,16 +185,22 @@ function ConfigurePageContent() {
           {/* Scrollable Content */}
           <div className="overflow-y-auto" style={{ height: 'calc(100vh - 73px - 73px)' }}>
             <div className="p-8 space-y-8">
-              <ProductDetailsSection
-                productName={basePayConfig.product.name}
-                subtitle={basePayConfig.product.subtitle}
-                imageUrl={basePayConfig.product.imageUrl}
-                price={basePayConfig.product.price}
-                onProductNameChange={(value) => updateProduct({ name: value })}
-                onSubtitleChange={(value) => updateProduct({ subtitle: value })}
-                onImageUrlChange={(value) => updateProduct({ imageUrl: value })}
-                onPriceChange={(value) => updateProduct({ price: value })}
-              />
+              <div className="space-y-4">
+                <USDCFaucetButton onClick={() => setShowFaucetModal(true)} />
+              </div>
+
+              <div className="border-t border-gray-200 pt-8">
+                <ProductDetailsSection
+                  productName={basePayConfig.product.name}
+                  subtitle={basePayConfig.product.subtitle}
+                  imageUrl={basePayConfig.product.imageUrl}
+                  price={basePayConfig.product.price}
+                  onProductNameChange={(value) => updateProduct({ name: value })}
+                  onSubtitleChange={(value) => updateProduct({ subtitle: value })}
+                  onImageUrlChange={(value) => updateProduct({ imageUrl: value })}
+                  onPriceChange={(value) => updateProduct({ price: value })}
+                />
+              </div>
 
               <div className="border-t border-gray-200 pt-8">
                 <PaymentSettingsSection
@@ -296,6 +304,8 @@ function ConfigurePageContent() {
         onClose={() => setShowShareModal(false)}
         url={shareUrl}
       />
+
+      <USDCFaucetModal isOpen={showFaucetModal} onClose={() => setShowFaucetModal(false)} />
     </div>
   );
 }
