@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  transpilePackages: ['@base-org/account'],
+  webpack: (config) => {
+    // Enable symlinks resolution for local package development
+    config.resolve.symlinks = true;
+    return config;
+  },
 };
 
 export default nextConfig;

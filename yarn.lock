@@ -161,9 +161,10 @@
   resolved "https://registry.yarnpkg.com/@base-org/account-ui/-/account-ui-1.0.1.tgz#21b808ef59b26a4c51a972d46bba38662156f1c6"
   integrity sha512-wWu1PtWies+B5P1v2GoQ9SteaIpXY6AOmWawHSYJZY0hYJA1aqN78u8g0l5A9WJsAe9VXnAkOz/khlbsr/oEIQ==
 
-"@base-org/account@file:./local-packages/base-account-sdk-2.0.2.tgz":
-  version "2.0.2"
-  resolved "file:./local-packages/base-account-sdk-2.0.2.tgz#837f15df011e82a46fc4a694481c1a679aea895e"
+"@base-org/account@2.0.3-payment-link-payment-link":
+  version "2.0.3-payment-link-payment-link"
+  resolved "https://registry.yarnpkg.com/@base-org/account/-/account-2.0.3-payment-link-payment-link.tgz#b410c016e61eed885e080660f0f79b00f89facfc"
+  integrity sha512-AQp/y9zJMipS7ralBqdkvhdEf99CcF9a2Cl4DWHsr/9Xb08Pn2+cGJd5m0bruAp6T7fuEKANUE/e6x5Un3S8og==
   dependencies:
     "@noble/hashes" "1.4.0"
     clsx "1.2.1"
