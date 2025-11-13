@@ -111,8 +111,8 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
         {faucetStage === 'signIn' && (
           <div className="space-y-6">
             <div className="flex justify-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-                <Image src="/usdc-logo.png" alt="USDC" width={40} height={40} />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center">
+                <Image src="/usdc-logo.svg" alt="USDC" width={80} height={80} />
               </div>
             </div>
             <div>
@@ -120,8 +120,8 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
                 Sign in to claim your funds
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                You need (testnet asset) in order to use this demo. Sign in or create an account so
-                we can send you funds.
+                You need Sepolia USDC in order to use this demo. Sign in or create an account so we
+                can send you funds.
               </p>
             </div>
             <button
@@ -136,8 +136,8 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
         {faucetStage === 'claiming' && (
           <div className="space-y-6">
             <div className="flex justify-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-                <Image src="/usdc-logo.png" alt="USDC" width={40} height={40} />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center">
+                <Image src="/usdc-logo.svg" alt="USDC" width={80} height={80} />
               </div>
             </div>
             <div>

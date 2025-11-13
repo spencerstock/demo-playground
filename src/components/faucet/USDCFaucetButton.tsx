@@ -13,8 +13,8 @@ export function USDCFaucetButton({ onClick }: USDCFaucetButtonProps) {
       className="w-full flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-colors group"
     >
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-          <Image src="/usdc-logo.png" alt="USDC" width={24} height={24} />
+        <div className="w-10 h-10 rounded-full flex items-center justify-center">
+          <Image src="/usdc-logo.svg" alt="USDC" width={40} height={40} />
         </div>
         <div className="text-left">
           <h3 className="text-sm font-semibold text-gray-900">Testnet USDC required</h3>
