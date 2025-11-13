@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
@@ -304,8 +304,10 @@ function ConfigurePageContent() {
 
 export default function ConfigurePage() {
   return (
-    <ConfigProvider initialConfig={defaultTransactConfig}>
-      <ConfigurePageContent />
-    </ConfigProvider>
+    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center">Loading...</div>}>
+      <ConfigProvider initialConfig={defaultTransactConfig}>
+        <ConfigurePageContent />
+      </ConfigProvider>
+    </Suspense>
   );
 }
