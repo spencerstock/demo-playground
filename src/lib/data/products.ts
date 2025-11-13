@@ -72,6 +72,7 @@ export const defaultTransactConfig: ProductConfig = {
   formAppearance: {
     ...defaultConfig.formAppearance,
   },
+  transactDemoMode: 'mint',
   capabilities: {
     ...defaultConfig.capabilities,
     signInWithEthereum: true,
