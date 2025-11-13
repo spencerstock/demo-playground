@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: ['@base-org/account'],
+  // Turbopack configuration for Next.js 16+
+  turbopack: {
+    resolveAlias: {},
+    resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
+  },
   webpack: (config) => {
     // Enable symlinks resolution for local package development
     config.resolve.symlinks = true;
