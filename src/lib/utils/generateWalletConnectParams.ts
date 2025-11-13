@@ -104,7 +104,7 @@ export function generateSDKConfig(config: ProductConfig) {
     );
   }
 
-  const sdkConfig: any = {
+  const sdkConfig: { appName: string; appChainIds: number[]; appLogoUrl?: string; subAccounts?: { creation: string; defaultAccount: string; funding: string } } = {
     appName: config.formAppearance.appName,
     appChainIds: [8453], // Base mainnet
   };
