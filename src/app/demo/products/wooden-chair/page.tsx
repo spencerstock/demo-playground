@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { pay } from '@base-org/account';
-import { Button } from '@/components/ui/Button';
+import { BasePayButton } from '@base-org/account-ui/react';
 import { MobileContentContainer, spacing } from '@/components/demo/MobileContentContainer';
 import { woodenChair } from '@/lib/data/products';
 import { useConfig } from '@/lib/contexts/ConfigContext';
@@ -87,9 +87,10 @@ export default function WoodenChairProductPage() {
 
       {/* Checkout Button */}
       <div className={`${spacing.section.lg} pb-8`}>
-        <Button onClick={handleCheckout} className="w-full">
-          Checkout with Base Pay
-        </Button>
+        <BasePayButton
+          onClick={handleCheckout}
+          colorScheme={basePayConfig?.buttonStyle?.colorScheme || 'light'}
+        />
       </div>
     </MobileContentContainer>
   );

@@ -48,7 +48,7 @@ export function SharePreviewModal({ isOpen, onClose, url }: SharePreviewModalPro
           Copy this URL to share your configuration with others.
         </p>
 
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 max-h-32 overflow-y-auto">
           <p className="text-sm text-gray-800 break-all font-mono">{url}</p>
         </div>
 
