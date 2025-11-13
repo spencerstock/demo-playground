@@ -157,14 +157,15 @@ export default function TransactProductPage() {
         >
           <div className="flex flex-col items-center text-center mb-6">
             <div className="relative mb-6">
-              <div 
+              <div
                 className="w-52 h-52 rounded-3xl shadow-xl overflow-hidden relative"
                 style={{ backgroundColor: currentAnimatedColor }}
               >
-                <div 
+                <div
                   className="absolute inset-0"
                   style={{
-                    background: 'linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%)'
+                    background:
+                      'linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%)',
                   }}
                 />
                 <span className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-black/70 text-white shadow-lg backdrop-blur-sm">
