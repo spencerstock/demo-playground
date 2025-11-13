@@ -120,8 +120,8 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
                 Sign in to claim your funds
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                You need Sepolia USDC in order to use this demo. Sign in or create an account so
-                we can send you funds.
+                You need Sepolia USDC in order to use this demo. Sign in or create an account so we
+                can send you funds.
               </p>
             </div>
             <button
