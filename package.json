@@ -13,7 +13,7 @@
     "ci": "yarn lint --fix && yarn format && yarn typecheck"
   },
   "dependencies": {
-    "@base-org/account": "2.0.3-payment-link-payment-link",
+    "@base-org/account": "2.0.4-payment-link-payment-link",
     "@base-org/account-ui": "^1.0.1",
     "@coinbase/cdp-sdk": "^1.38.5",
     "clsx": "^2.1.1",

@@ -37,7 +37,13 @@ export default function WoodenChairProductPage() {
       const result = await pay({
         ...payParams,
         walletUrl: walletUrl ?? undefined,
-      });
+        sdkConfig: {
+          preference: {
+            mode: 'embedded',
+            walletUrl: walletUrl ?? undefined,
+          },
+        },
+      } as any);
 
       console.log('Payment result:', result);
 
