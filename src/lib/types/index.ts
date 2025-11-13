@@ -49,6 +49,7 @@ export interface ProductConfig {
   // Preview settings
   theme?: 'light' | 'dark';
   viewMode?: 'mobile' | 'desktop';
+  transactDemoMode?: 'mint' | 'transfer';
 }
 
 export interface BasePayConfig {

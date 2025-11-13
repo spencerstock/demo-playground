@@ -11,7 +11,7 @@ interface SDKContextType {
 
 const SDKContext = createContext<SDKContextType | undefined>(undefined);
 
-export interface SDKProviderProps {
+interface SDKProviderProps {
   children: ReactNode;
   appName?: string;
   appChainIds?: number[];
@@ -22,7 +22,7 @@ export interface SDKProviderProps {
 export function SDKProvider({
   children,
   appName = 'Base Demo Playground',
-  appChainIds = [8453], // Base mainnet
+  appChainIds = [8453],
   walletUrl = 'https://keys.coinbase.com/connect?externalCorrelationId=pl_01k9wzx0h3fcts0g1ya3bfkswa',
   mode = 'embedded',
 }: SDKProviderProps) {
@@ -66,7 +66,7 @@ export function SDKProvider({
 export function useSDK() {
   const context = useContext(SDKContext);
   if (!context) {
-    throw new Error('useSDK must be used within SDKProvider');
+    throw new Error('useSDK must be used within an SDKProvider');
   }
   return context;
 }
