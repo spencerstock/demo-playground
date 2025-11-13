@@ -34,6 +34,7 @@ export default function WoodenChairProductPage() {
       console.log('Payment params:', payParams);
 
       // Call the pay function from the SDK
+       
       const result = await pay({
         ...payParams,
         walletUrl: walletUrl ?? undefined,

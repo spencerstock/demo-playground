@@ -18,7 +18,7 @@ function ConfigurePageContent() {
   const [showFaucetModal, setShowFaucetModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
-  const { config, updateTheme, updateViewMode, updateConfig } = useConfig();
+  const { config, updateTheme, updateViewMode } = useConfig();
 
   const productConfig = config as ProductConfig;
 
