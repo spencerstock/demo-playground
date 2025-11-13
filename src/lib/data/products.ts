@@ -26,7 +26,7 @@ export const woodenChair: EcommerceProduct = {
   name: 'Wooden Chair',
   subtitle: 'Comfort meets simplicity',
   description:
-    'Experience comfort and style with the Modern Desk Chair. Designed for clean aesthetics and ergonomic support, its smooth backrest and cushioned seat ensure all-day comfort, while blue accents on the seat and wheels add a vibrant pop to your workspace.',
+    'Experience comfort and style with the Modern Desk Chair. Designed for clean aesthetics and ergonomic support, its smooth backrest and cushioned seat ensure all-day comfort.',
   price: 150,
   image: '/chair-blue.png', // We'll need to add this
   variants: [
@@ -50,7 +50,7 @@ export const defaultConfig = {
   },
   requests: {
     spendPermission: {
-      enabled: true,
+      enabled: false,
       allowance: '0.01',
       frequency: 'Daily' as const,
       ends: 'Never',
@@ -100,7 +100,7 @@ export const defaultBasePayConfig = {
     name: 'Wooden Chair',
     subtitle: 'Comfort meets simplicity',
     imageUrl: '/chair-blue.png',
-    price: '150.00',
+    price: '1.00',
   },
   formAppearance: {
     showContactInfo: true,
@@ -109,7 +109,7 @@ export const defaultBasePayConfig = {
     appName: '',
   },
   payment: {
-    recipientAddress: '0x0000000000000000000000000000000000000000',
+    recipientAddress: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045',
     testnet: true,
   },
   payerInfo: {

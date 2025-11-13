@@ -6,6 +6,7 @@ import { createBaseAccountSDK } from '@base-org/account';
 interface SDKContextType {
   sdk: ReturnType<typeof createBaseAccountSDK> | null;
   provider: ReturnType<ReturnType<typeof createBaseAccountSDK>['getProvider']> | null;
+  walletUrl: string | null;
 }
 
 const SDKContext = createContext<SDKContextType | undefined>(undefined);
@@ -28,6 +29,7 @@ export function SDKProvider({
   const [sdkState, setSDKState] = useState<SDKContextType>({
     sdk: null,
     provider: null,
+    walletUrl: null,
   });
   const initializingRef = useRef(false);
 
@@ -53,6 +55,7 @@ export function SDKProvider({
       setSDKState({
         sdk: sdkInstance,
         provider: sdkInstance.getProvider(),
+        walletUrl: walletUrl,
       });
     }
   }, [appChainIds, appName, mode, walletUrl]);

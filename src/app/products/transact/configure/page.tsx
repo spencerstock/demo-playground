@@ -4,6 +4,7 @@ import { Suspense, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
+import { SharePreviewModal } from '@/components/ui/SharePreviewModal';
 import { MobilePreview } from '@/components/builder/MobilePreview';
 import { PreviewControls } from '@/components/builder/PreviewControls';
 import { ConfigProvider, useConfig } from '@/lib/contexts/ConfigContext';
@@ -15,9 +16,18 @@ function ConfigurePageContent() {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [refreshKey, setRefreshKey] = useState(0);
   const [showFaucetModal, setShowFaucetModal] = useState(false);
-  const { config, updateTheme, updateViewMode } = useConfig();
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
+  const { config, updateTheme, updateViewMode, updateConfig } = useConfig();
 
   const productConfig = config as ProductConfig;
+
+  const handleSharePreview = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('config', JSON.stringify(productConfig));
+    setShareUrl(url.toString());
+    setShowShareModal(true);
+  };
 
   const renderedCode = useMemo(() => {
     const lines: string[] = [];
@@ -69,23 +79,31 @@ function ConfigurePageContent() {
             <Logo />
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="secondary">Share preview</Button>
-            <Button>
-              Start building
-              <svg
-                className="ml-2 w-4 h-4 inline"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+            <Button variant="secondary" onClick={handleSharePreview}>
+              Share preview
             </Button>
+            <a
+              href="https://docs.base.org/base-account/guides/transact"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button>
+                Start building
+                <svg
+                  className="ml-2 w-4 h-4 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Button>
+            </a>
           </div>
         </div>
       </header>
@@ -257,6 +275,11 @@ function ConfigurePageContent() {
       </div>
 
       <USDCFaucetModal isOpen={showFaucetModal} onClose={() => setShowFaucetModal(false)} />
+      <SharePreviewModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        url={shareUrl}
+      />
     </div>
   );
 }

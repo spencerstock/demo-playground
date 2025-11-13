@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
+import { SharePreviewModal } from '@/components/ui/SharePreviewModal';
 import { MobilePreview } from '@/components/builder/MobilePreview';
 import { PreviewControls } from '@/components/builder/PreviewControls';
 import { ProductDetailsSection } from '@/components/builder/ProductDetailsSection';
@@ -17,7 +18,8 @@ import { BasePayConfig } from '@/lib/types';
 function ConfigurePageContent() {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [refreshKey, setRefreshKey] = useState(0);
-  const [shareButtonText, setShareButtonText] = useState('Share preview');
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
   const {
     config,
     updateProduct,
@@ -32,16 +34,11 @@ function ConfigurePageContent() {
   // Type guard to ensure we have a BasePayConfig
   const basePayConfig = config as BasePayConfig;
 
-  const handleSharePreview = async () => {
-    try {
-      const url = new URL(window.location.href);
-      url.searchParams.set('config', JSON.stringify(basePayConfig));
-      await navigator.clipboard.writeText(url.toString());
-      setShareButtonText('Copied!');
-      setTimeout(() => setShareButtonText('Share preview'), 2500);
-    } catch (error) {
-      console.error('Failed to copy to clipboard:', error);
-    }
+  const handleSharePreview = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('config', JSON.stringify(basePayConfig));
+    setShareUrl(url.toString());
+    setShowShareModal(true);
   };
 
   const generateCode = () => {
@@ -130,7 +127,7 @@ function ConfigurePageContent() {
           </div>
           <div className="flex items-center gap-3">
             <Button variant="secondary" onClick={handleSharePreview}>
-              {shareButtonText}
+              Share preview
             </Button>
             <a
               href="https://docs.base.org/base-account/guides/accept-payments"
@@ -293,6 +290,12 @@ function ConfigurePageContent() {
           </div>
         </div>
       </div>
+
+      <SharePreviewModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        url={shareUrl}
+      />
     </div>
   );
 }
