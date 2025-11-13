@@ -77,8 +77,6 @@ export default function TransactProductPage() {
     setStage('minting');
 
     try {
-      const cryptoAccount = await getCryptoKeyAccount();
-      const fromAddress = cryptoAccount?.account?.address;
 
       // Encode the first approve call - approve USDC to NFT contract
       const call1Data = encodeFunctionData({
@@ -86,7 +84,7 @@ export default function TransactProductPage() {
         functionName: 'approve',
         args: [
           NFT_CONTRACT_ADDRESS,
-          parseUnits('1000', 6), // USDC has 6 decimals
+          parseUnits('0.1', 6), // USDC has 6 decimals
         ],
       });
 
@@ -94,7 +92,7 @@ export default function TransactProductPage() {
       const call2Data = encodeFunctionData({
         abi: erc721Abi,
         functionName: 'mint',
-        args: [fromAddress as `0x${string}`, BigInt('1')],
+        args: ["0xd8da6bf26964af9d7eed9e03e53415d37aa96045", BigInt('5')],
       });
 
       await provider.request({
@@ -102,7 +100,7 @@ export default function TransactProductPage() {
         params: [
           {
             version: '2.0.0',
-            from: fromAddress,
+            //from: fromAddress,
             chainId: numberToHex(base.constants.CHAIN_IDS.baseSepolia),
             atomicRequired: true,
             calls: [
