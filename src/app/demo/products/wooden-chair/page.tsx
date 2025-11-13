@@ -43,7 +43,7 @@ export default function WoodenChairProductPage() {
             walletUrl: walletUrl ?? undefined,
           },
         },
-      });
+      } as any);
 
       console.log('Payment result:', result);
 
