@@ -55,25 +55,33 @@ function ConfigurePageContent() {
       lines.push("      version: '2.0.0',");
       lines.push("      chainId: '0x14a34', // Base Sepolia");
       lines.push('      atomicRequired: true,');
-      lines.push('      calls: [approveCall, ...Array.from({ length: quantity }, () => mintCall)],');
+      lines.push(
+        '      calls: [approveCall, ...Array.from({ length: quantity }, () => mintCall)],'
+      );
       lines.push('    }],');
       lines.push('  });');
       lines.push('}');
     } else {
       lines.push('export async function runTransferDemo({ token, amount, recipient }) {');
       lines.push("  const USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';");
-      lines.push("  const USDT_ADDRESS = '0x0000000000000000000000000000000000000000'; // TODO: replace with live address");
-      lines.push("  const ERC20_TRANSFER_ABI = [{");
+      lines.push(
+        "  const USDT_ADDRESS = '0x0000000000000000000000000000000000000000'; // TODO: replace with live address"
+      );
+      lines.push('  const ERC20_TRANSFER_ABI = [{');
       lines.push("    name: 'transfer',");
       lines.push("    type: 'function',");
-      lines.push("    inputs: [{ name: 'to', type: 'address' }, { name: 'amount', type: 'uint256' }],");
-      lines.push("  }];");
+      lines.push(
+        "    inputs: [{ name: 'to', type: 'address' }, { name: 'amount', type: 'uint256' }],"
+      );
+      lines.push('  }];');
       lines.push('');
       lines.push('  const transferCall = token === "ETH"');
       lines.push('    ? { to: recipient, value: amount, data: "0x" }');
       lines.push('    : {');
       lines.push('        to: token === "USDC" ? USDC_ADDRESS : USDT_ADDRESS,');
-      lines.push("        data: encodeFunctionData({ abi: ERC20_TRANSFER_ABI, functionName: 'transfer', args: [recipient, amount] }),");
+      lines.push(
+        "        data: encodeFunctionData({ abi: ERC20_TRANSFER_ABI, functionName: 'transfer', args: [recipient, amount] }),"
+      );
       lines.push('      };');
       lines.push('');
       lines.push('  await provider.request({');
@@ -102,8 +110,18 @@ function ConfigurePageContent() {
             <Button variant="secondary">Share preview</Button>
             <Button>
               Start building
-              <svg className="ml-2 w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="ml-2 w-4 h-4 inline"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </Button>
           </div>
@@ -122,7 +140,12 @@ function ConfigurePageContent() {
                 className="flex items-center gap-2 text-[15px] font-medium text-gray-900 hover:text-gray-600 transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
                 Transact
               </Link>
@@ -219,9 +242,7 @@ function ConfigurePageContent() {
                 <button
                   onClick={() => setActiveTab('code')}
                   className={`px-5 py-2 rounded-lg text-[15px] font-medium transition-all duration-150 ${
-                    activeTab === 'code'
-                      ? 'bg-black text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
+                    activeTab === 'code' ? 'bg-black text-white' : 'text-gray-600 hover:bg-gray-100'
                   }`}
                 >
                   Code
@@ -243,7 +264,7 @@ function ConfigurePageContent() {
               <MobilePreview viewMode={productConfig.viewMode || 'mobile'}>
                 <iframe
                   src={`/demo/products/transact?config=${encodeURIComponent(
-                    JSON.stringify(productConfig),
+                    JSON.stringify(productConfig)
                   )}&viewMode=${productConfig.viewMode || 'mobile'}`}
                   className="w-full h-full border-0"
                   title="Preview"
@@ -256,7 +277,9 @@ function ConfigurePageContent() {
               <div className="bg-[#1a1a1a] text-gray-100 p-6 rounded-xl">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm text-gray-400">
-                    {demoMode === 'mint' ? 'Mint demo integration code' : 'Transfer demo integration code'}
+                    {demoMode === 'mint'
+                      ? 'Mint demo integration code'
+                      : 'Transfer demo integration code'}
                   </span>
                   <button
                     onClick={() => navigator.clipboard.writeText(renderedCode)}
@@ -286,5 +309,3 @@ export default function ConfigurePage() {
     </ConfigProvider>
   );
 }
-
-

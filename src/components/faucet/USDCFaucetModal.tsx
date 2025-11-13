@@ -28,21 +28,21 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
   const handleSignIn = async () => {
     try {
       setFaucetStage('signIn');
-      
+
       // Initialize the Base Account SDK
       const sdk = createBaseAccountSDK({
-        appName: "Base Demo Playground",
+        appName: 'Base Demo Playground',
         appChainIds: [84532], // Base Sepolia
       });
-      
+
       const provider = sdk.getProvider();
-      
+
       // Request wallet connection
-      const response = await provider.request({
-        method: "wallet_connect",
+      const response = (await provider.request({
+        method: 'wallet_connect',
         params: [{ version: '1', capabilities: {} }],
-      }) as { accounts?: Array<{ address: string }> };
-      
+      })) as { accounts?: Array<{ address: string }> };
+
       if (response && response.accounts && response.accounts.length > 0) {
         const address = response.accounts[0].address;
         setUserAddress(address);
@@ -52,7 +52,9 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
       }
     } catch (error) {
       console.error('Sign in failed:', error);
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to sign in. Please try again.');
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Failed to sign in. Please try again.'
+      );
       setFaucetStage('error');
     }
   };
@@ -76,7 +78,9 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
       }
     } catch (error) {
       console.error('Claim failed:', error);
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to claim funds. Please try again.');
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Failed to claim funds. Please try again.'
+      );
       setFaucetStage('error');
     }
   };
@@ -91,7 +95,12 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
           className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
 
@@ -107,9 +116,12 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Sign in to claim your funds</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Sign in to claim your funds
+              </h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                You need (testnet asset) in order to use this demo. Sign in or create an account so we can send you funds.
+                You need (testnet asset) in order to use this demo. Sign in or create an account so
+                we can send you funds.
               </p>
             </div>
             <button
@@ -131,7 +143,8 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Claim your Sepolia USDC</h3>
               <p className="text-sm text-gray-600 mb-3 leading-relaxed">
-                Now that you&apos;ve signed in, you can claim your assets and use them to pay for the demo transaction.
+                Now that you&apos;ve signed in, you can claim your assets and use them to pay for
+                the demo transaction.
               </p>
               {userAddress && (
                 <p className="text-xs text-gray-500 font-mono bg-gray-50 p-2 rounded break-all">
@@ -152,13 +165,25 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
           <div className="space-y-6">
             <div className="flex justify-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <svg
+                  className="w-8 h-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">USDC claimed successfully!</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                USDC claimed successfully!
+              </h3>
               <p className="text-sm text-gray-600 mb-3 leading-relaxed">
                 Your testnet USDC has been sent to your wallet. You can now use it in the demo.
               </p>
@@ -186,8 +211,18 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
           <div className="space-y-6">
             <div className="flex justify-center">
               <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-8 h-8 text-red-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </div>
             </div>
@@ -209,4 +244,3 @@ export function USDCFaucetModal({ isOpen, onClose }: USDCFaucetModalProps) {
     </div>
   );
 }
-

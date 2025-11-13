@@ -1,7 +1,6 @@
-
-import type { Metadata } from "next";
-import "./globals.css";
-import { Providers } from "@/components/Providers";
+import type { Metadata } from 'next';
+import './globals.css';
+import { Providers } from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: 'Base Demo Playground',

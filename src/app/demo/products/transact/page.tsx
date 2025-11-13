@@ -63,7 +63,6 @@ const TOKENS = [
 
 type TokenSymbol = (typeof TOKENS)[number]['symbol'];
 
-
 export default function TransactProductPage() {
   const searchParams = useSearchParams();
   const { config } = useConfig();
@@ -80,7 +79,7 @@ export default function TransactProductPage() {
   const [selectedTokenSymbol, setSelectedTokenSymbol] = useState<TokenSymbol>('USDC');
   const [transferAmountInput, setTransferAmountInput] = useState<string>('1');
   const [recipientAddress, setRecipientAddress] = useState<string>(
-    '0x000000000000000000000000000000000000dead',
+    '0x000000000000000000000000000000000000dead'
   );
   const [lastTransferSummary, setLastTransferSummary] = useState<{
     tokenSymbol: TokenSymbol;
@@ -101,12 +100,10 @@ export default function TransactProductPage() {
   const mintQuantityLabel = mintQuantity > 1 ? `${mintQuantity} NFTs` : '1 NFT';
   const mintedSummaryQuantity = lastMintQuantity ?? mintQuantity;
   const mintedSummaryLabel =
-    mintedSummaryQuantity > 1
-      ? `${mintedSummaryQuantity} ${NFT_NAME} tokens`
-      : `1 ${NFT_NAME}`;
+    mintedSummaryQuantity > 1 ? `${mintedSummaryQuantity} ${NFT_NAME} tokens` : `1 ${NFT_NAME}`;
   const selectedToken = useMemo(
     () => TOKENS.find((token) => token.symbol === selectedTokenSymbol)!,
-    [selectedTokenSymbol],
+    [selectedTokenSymbol]
   );
 
   const mintButtonLabel =
@@ -125,7 +122,7 @@ export default function TransactProductPage() {
 
   const animatedColors = useMemo(
     () => ['#F97316', '#FACC15', '#4ADE80', '#22D3EE', '#60A5FA', '#C084FC'],
-    [],
+    []
   );
   const [animatedColorIndex, setAnimatedColorIndex] = useState(0);
   const currentAnimatedColor = animatedColors[animatedColorIndex];
@@ -136,7 +133,6 @@ export default function TransactProductPage() {
     }, 1000);
     return () => window.clearInterval(interval);
   }, [animatedColors.length]);
-
 
   const cardClass = isDark
     ? 'bg-gray-900 text-white border border-gray-700'
@@ -208,7 +204,7 @@ export default function TransactProductPage() {
       });
 
       const mintedColorsForSession = Array.from({ length: mintQuantity }, () =>
-        generateRandomHexColor(),
+        generateRandomHexColor()
       );
       setMintedColors(mintedColorsForSession);
       setLastMintQuantity(mintQuantity);
@@ -305,19 +301,31 @@ export default function TransactProductPage() {
       className={isDark ? 'bg-gray-950 text-white' : 'bg-gray-50 text-gray-900'}
     >
       <div className="w-full max-w-md mx-auto py-6">
-        <div className={`${cardClass} rounded-3xl ${viewMode === 'desktop' ? 'p-8' : 'p-6'} flex flex-col gap-6`}>
+        <div
+          className={`${cardClass} rounded-3xl ${viewMode === 'desktop' ? 'p-8' : 'p-6'} flex flex-col gap-6`}
+        >
           {demoMode === 'mint' ? (
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-4">
                 <div className="relative shrink-0">
-                  <svg viewBox="0 0 120 120" className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg">
+                  <svg
+                    viewBox="0 0 120 120"
+                    className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg"
+                  >
                     <defs>
                       <linearGradient id="animatedGloss" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
                         <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
                       </linearGradient>
                     </defs>
-                    <rect x="0" y="0" width="120" height="120" rx="16" fill={currentAnimatedColor} />
+                    <rect
+                      x="0"
+                      y="0"
+                      width="120"
+                      height="120"
+                      rx="16"
+                      fill={currentAnimatedColor}
+                    />
                     <rect x="0" y="0" width="120" height="120" rx="16" fill="url(#animatedGloss)" />
                   </svg>
                   <span className="absolute bottom-1 left-1/2 -translate-x-1/2 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-black/70 text-white shadow-md backdrop-blur-sm">
@@ -331,7 +339,8 @@ export default function TransactProductPage() {
               </div>
 
               <p className={`${secondaryText} text-sm leading-relaxed`}>
-                Each mint generates a unique on-chain color stored directly in the NFT contract. Powered by Base Sepolia testnet.
+                Each mint generates a unique on-chain color stored directly in the NFT contract.
+                Powered by Base Sepolia testnet.
               </p>
 
               <div className="w-full">
@@ -374,16 +383,24 @@ export default function TransactProductPage() {
               )}
 
               {mintStage === 'minting' && !mintError && (
-                <div className={`rounded-xl ${isDark ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-blue-50 border border-blue-100'} p-4`}>
-                  <p className={`text-sm font-medium ${isDark ? 'text-blue-200' : 'text-blue-700'}`}>
+                <div
+                  className={`rounded-xl ${isDark ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-blue-50 border border-blue-100'} p-4`}
+                >
+                  <p
+                    className={`text-sm font-medium ${isDark ? 'text-blue-200' : 'text-blue-700'}`}
+                  >
                     Minting {mintQuantityLabel}…
                   </p>
                 </div>
               )}
 
               {mintStage === 'success' && (
-                <div className={`rounded-xl ${isDark ? 'bg-green-500/10 border border-green-500/20' : 'bg-green-50 border border-green-100'} p-4 space-y-3`}>
-                  <p className={`text-sm font-semibold ${isDark ? 'text-green-200' : 'text-green-800'}`}>
+                <div
+                  className={`rounded-xl ${isDark ? 'bg-green-500/10 border border-green-500/20' : 'bg-green-50 border border-green-100'} p-4 space-y-3`}
+                >
+                  <p
+                    className={`text-sm font-semibold ${isDark ? 'text-green-200' : 'text-green-800'}`}
+                  >
                     Success! Minted {mintedSummaryLabel}
                   </p>
                   {mintedColors.length > 0 && (
@@ -398,7 +415,9 @@ export default function TransactProductPage() {
                       ))}
                     </div>
                   )}
-                  <p className={`text-xs font-medium ${isDark ? 'text-green-300/80' : 'text-green-700/80'}`}>
+                  <p
+                    className={`text-xs font-medium ${isDark ? 'text-green-300/80' : 'text-green-700/80'}`}
+                  >
                     Each token displays its unique on-chain generated color
                   </p>
                 </div>
@@ -488,7 +507,11 @@ export default function TransactProductPage() {
                 </div>
               </div>
 
-              <Button onClick={handleTransfer} className="w-full" disabled={transferStage === 'sending'}>
+              <Button
+                onClick={handleTransfer}
+                className="w-full"
+                disabled={transferStage === 'sending'}
+              >
                 {transferButtonLabel}
               </Button>
 
@@ -501,22 +524,32 @@ export default function TransactProductPage() {
               )}
 
               {transferStage === 'sending' && !transferError && (
-                <div className={`rounded-xl ${isDark ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-blue-50 border border-blue-100'} p-4`}>
-                  <p className={`text-sm font-medium ${isDark ? 'text-blue-200' : 'text-blue-700'}`}>
+                <div
+                  className={`rounded-xl ${isDark ? 'bg-blue-500/10 border border-blue-500/20' : 'bg-blue-50 border border-blue-100'} p-4`}
+                >
+                  <p
+                    className={`text-sm font-medium ${isDark ? 'text-blue-200' : 'text-blue-700'}`}
+                  >
                     Sending {transferAmountInput} {selectedToken.symbol}…
                   </p>
                 </div>
               )}
 
               {transferStage === 'success' && lastTransferSummary && (
-                <div className={`rounded-xl ${isDark ? 'bg-green-500/10 border border-green-500/20' : 'bg-green-50 border border-green-100'} p-4 space-y-2`}>
-                  <p className={`text-sm font-semibold ${isDark ? 'text-green-200' : 'text-green-800'}`}>
+                <div
+                  className={`rounded-xl ${isDark ? 'bg-green-500/10 border border-green-500/20' : 'bg-green-50 border border-green-100'} p-4 space-y-2`}
+                >
+                  <p
+                    className={`text-sm font-semibold ${isDark ? 'text-green-200' : 'text-green-800'}`}
+                  >
                     Transfer Complete!
                   </p>
                   <p className={`text-sm ${isDark ? 'text-green-300/90' : 'text-green-700/90'}`}>
                     Sent {lastTransferSummary.amount} {lastTransferSummary.tokenSymbol}
                   </p>
-                  <p className={`text-xs font-mono ${isDark ? 'text-green-300/70' : 'text-green-700/70'} break-all`}>
+                  <p
+                    className={`text-xs font-mono ${isDark ? 'text-green-300/70' : 'text-green-700/70'} break-all`}
+                  >
                     to {lastTransferSummary.recipient}
                   </p>
                 </div>
@@ -525,7 +558,9 @@ export default function TransactProductPage() {
           )}
         </div>
 
-        <div className={`mt-6 text-center ${secondaryText} text-xs font-medium leading-relaxed max-w-sm mx-auto`}>
+        <div
+          className={`mt-6 text-center ${secondaryText} text-xs font-medium leading-relaxed max-w-sm mx-auto`}
+        >
           {demoMode === 'mint'
             ? 'Powered by wallet_sendCalls — batch USDC approval and multiple NFT mints in a single atomic transaction.'
             : 'Powered by wallet_sendCalls — orchestrate ERC-20 or native token transfers in a single atomic transaction.'}

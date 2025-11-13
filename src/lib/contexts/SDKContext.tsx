@@ -8,7 +8,7 @@ interface SDKContextType {
   provider: ReturnType<ReturnType<typeof createBaseAccountSDK>['getProvider']> | null;
 }
 
-const SDKContext = createContext<SDKContextValue | undefined>(undefined);
+const SDKContext = createContext<SDKContextType | undefined>(undefined);
 
 interface SDKProviderProps {
   children: ReactNode;
@@ -67,5 +67,3 @@ export function useSDK() {
   }
   return context;
 }
-
-
