@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
+import { SharePreviewModal } from '@/components/ui/SharePreviewModal';
 import { MobilePreview } from '@/components/builder/MobilePreview';
 import { PreviewControls } from '@/components/builder/PreviewControls';
 import { FormAppearanceSection } from '@/components/builder/FormAppearanceSection';
@@ -14,7 +15,16 @@ import { ConfigProvider, useConfig } from '@/lib/contexts/ConfigContext';
 function ConfigurePageContent() {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
   const { config, updateTheme, updateViewMode } = useConfig();
+
+  const handleSharePreview = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('config', JSON.stringify(config));
+    setShareUrl(url.toString());
+    setShowShareModal(true);
+  };
 
   const generateCode = () => {
     const lines: string[] = [];
@@ -168,7 +178,9 @@ function ConfigurePageContent() {
             <Logo />
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="secondary">Share preview</Button>
+            <Button variant="secondary" onClick={handleSharePreview}>
+              Share preview
+            </Button>
             <a
               href="https://docs.base.org/base-account/guides/authenticate-users"
               target="_blank"
@@ -302,6 +314,12 @@ function ConfigurePageContent() {
           </div>
         </div>
       </div>
+
+      <SharePreviewModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        url={shareUrl}
+      />
     </div>
   );
 }
